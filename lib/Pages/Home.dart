@@ -1,14 +1,26 @@
-// ignore_for_file: prefer_adjacent_string_concatenation
+// ignore_for_file: prefer_adjacent_string_concatenation, prefer_const_constructors
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:crudapp/Modal/Response.dart';
+import 'package:crudapp/Pages/AddNotes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import '../Modal/Operation.dart';
 import '../main.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  
+  final Stream<QuerySnapshot> data = Notes.readData();
+  final GlobalKey sKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +42,7 @@ class HomePage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Icon(
-                    CupertinoIcons.arrow_down_right_circle,
+                    Icons.logout_outlined,
                     color: Colors.white,
                     size: 25.0,
                   )
@@ -38,17 +50,100 @@ class HomePage extends StatelessWidget {
               )),
         ],
       ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(10.0),
-        child: Column(
-          children: [
-            // Text("Hello , " + FirebaseAuth.instance.currentUser.email()),
-            Text(
-              "Hello , " + "User",
-            )
-          ],
-        ),
-      ),
+      floatingActionButton: FloatingActionButton(
+          onPressed: () => showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: const Text(
+                      "Add Note",
+                      textAlign: TextAlign.center,
+                    ),
+                    content: AddNotes(sKey: sKey),
+                  );
+                },
+              ),
+          child: const Icon(
+            CupertinoIcons.add,
+            color: Colors.white,
+          )),
+      body: StreamBuilder(
+          stream: data,
+          builder:
+              (BuildContext content, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (snapshot.hasData) {
+              if (snapshot.data!.docs.isNotEmpty) {
+                return Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: ListView(
+                    children: snapshot.data!.docs.map((e) {
+                      return Card(
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 9, right: 9),
+                          child: ExpansionTile(
+                            title: Text(e["title"],
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 25.0,
+                                    fontWeight: FontWeight.bold)),
+                            subtitle: Padding(
+                              padding: const EdgeInsets.only(top: 20),
+                              child: Text(
+                                "${e["body"]}",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 20, color: Colors.blueGrey[200]),
+                              ),
+                            ),
+                            children: [
+                              const Divider(),
+                              ButtonBar(
+                                alignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  IconButton(
+                                      onPressed: () => {
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) {
+                                                return UpdateNotes(
+                                                  title: e["title"],
+                                                  body: e["body"],
+                                                  docID: e.id,
+                                                  sKey: sKey,
+                                                );
+                                              },
+                                            ),
+                                          },
+                                      icon: Icon(Icons.edit_note_rounded)),
+                                  IconButton(
+                                      onPressed: () async {
+                                        Response r =
+                                            await Notes.deletedata(docID: e.id);
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(SnackBar(
+                                                content: Text("${r.msg}")));
+                                      },
+                                      icon: Icon(Icons.delete)),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                );
+              } else {
+                return const Center(
+                  child: Text("hmm!! No Data"),
+                );
+              }
+            } else {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          }),
       drawer: Drawer(),
     );
   }

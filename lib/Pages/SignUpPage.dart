@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'dart:developer';
 
 import 'package:crudapp/Pages/LogInPage.dart';
@@ -34,6 +36,16 @@ class SignUpPage extends StatelessWidget {
               },
             );
           } else if (e.code == "weak-password") {
+            showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  content: const Text("PLease Enter A Strong Password"),
+                );
+              },
+            );
+          }
+          else if (e.code == "email-already-in-use") {
             showDialog(
               context: context,
               builder: (context) {

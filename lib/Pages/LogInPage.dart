@@ -42,6 +42,24 @@ class LogInPage extends StatelessWidget {
                 );
               },
             );
+          } else if (e.code == "network-request-failed") {
+            return showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  content: const Text("No Internet Connection"),
+                );
+              },
+            );
+          } else if (e.code == "unknown") {
+            return showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  content: const Text("Something Went Wrong"),
+                );
+              },
+            );
           }
           // print(e);
           log(e.code);
