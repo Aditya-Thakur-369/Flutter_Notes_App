@@ -10,6 +10,7 @@ class MyTheme {
         color: Colors.white,
         elevation: 0.0,
         iconTheme: IconThemeData(color: Colors.white),
+        // backgroundColor: Colors.blue.shade300,
         toolbarTextStyle: Theme.of(context).textTheme.bodyText2,
         titleTextStyle: Theme.of(context).textTheme.headline6,
       ));

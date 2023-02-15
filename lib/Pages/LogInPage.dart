@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class LogInPage extends StatelessWidget {
@@ -23,6 +24,10 @@ class LogInPage extends StatelessWidget {
                   email: email.text, password: password.text)
               .then((value) => Navigator.push(context,
                   MaterialPageRoute(builder: (context) => HomePage())));
+          Fluttertoast.showToast(
+            msg: 'Log In Successfully :) ',
+            backgroundColor: Colors.grey,
+          );
         } on FirebaseAuthException catch (e) {
           if (e.code == "invalid-email") {
             return showDialog(
@@ -52,6 +57,15 @@ class LogInPage extends StatelessWidget {
               },
             );
           } else if (e.code == "unknown") {
+            return showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  content: const Text("Something Went Wrong"),
+                );
+              },
+            );
+          } else if (e.code == "user-not-found") {
             return showDialog(
               context: context,
               builder: (context) {
@@ -153,10 +167,17 @@ class LogInPage extends StatelessWidget {
                   onPressed: () {
                     MoveToHome();
                   },
+                  style: ButtonStyle(
+                      shape: MaterialStateProperty.all(StadiumBorder()),
+                      padding: MaterialStateProperty.all(EdgeInsets.only(
+                          left: 55, right: 55, top: 10, bottom: 10)),
+                      elevation: MaterialStateProperty.all(1)),
                   child: Text(
                     "Log In",
                     style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold),
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
                   )),
               TextButton(
                   onPressed: () => Navigator.push(context,

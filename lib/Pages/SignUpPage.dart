@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, non_constant_identifier_names, no_leading_underscores_for_local_identifiers
 
 import 'dart:developer';
 
@@ -8,6 +8,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import '../BackEnd/UserData.dart';
 
 class SignUpPage extends StatelessWidget {
   const SignUpPage({super.key});
@@ -23,8 +25,17 @@ class SignUpPage extends StatelessWidget {
           await FirebaseAuth.instance
               .createUserWithEmailAndPassword(
                   email: email.text, password: password.text.trim())
-              .then((value) => Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => LogInPage())));
+              .then(
+            (value) async {
+              await UserData.userdata(value.user!.uid);
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => LogInPage()));
+            },
+          );
+          Fluttertoast.showToast(
+            msg: 'Account Created Successfully :)',
+            backgroundColor: Colors.grey,
+          );
         } on FirebaseAuthException catch (e) {
           if (e.code == "invalid-email") {
             showDialog(
@@ -44,8 +55,7 @@ class SignUpPage extends StatelessWidget {
                 );
               },
             );
-          }
-          else if (e.code == "email-already-in-use") {
+          } else if (e.code == "email-already-in-use") {
             showDialog(
               context: context,
               builder: (context) {
@@ -125,7 +135,7 @@ class SignUpPage extends StatelessWidget {
                   validator: (value) {
                     if (value!.isEmpty) {
                       return "Password Can Not Be Empty";
-                    } else if (value.length > 6) {
+                    } else if (value.length < 6) {
                       return "Password Should Be Greater Then 6 Digits";
                     }
                     return null;
@@ -161,6 +171,10 @@ class SignUpPage extends StatelessWidget {
                   onPressed: () {
                     MoveToLog();
                   },
+                  style: ButtonStyle(
+                      shape: MaterialStateProperty.all(StadiumBorder()),
+                      padding: MaterialStateProperty.all(EdgeInsets.only(
+                          left: 55, right: 55, top: 10, bottom: 10))),
                   child: Text(
                     "Sign Up",
                     style: TextStyle(

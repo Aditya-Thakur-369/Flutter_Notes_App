@@ -1,8 +1,12 @@
 import 'package:crudapp/Pages/LogInPage.dart';
+import 'package:crudapp/Pages/Profile.dart';
 import 'package:crudapp/Pages/SignUpPage.dart';
+import 'package:crudapp/Pages/UpdatedList.dart';
+import 'package:crudapp/Pages/UpdatedList.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'Pages/Home.dart';
+import 'Pages/UpdatedList.dart';
 import 'Routes/Routes.dart';
 import 'Theme/Theme.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -30,6 +34,8 @@ class MyApp extends StatelessWidget {
         Routes.SignUpPage: (context) => SignUpPage(),
         Routes.LogInPage: (context) => LogInPage(),
         Routes.HomePage: (context) => HomePage(),
+        Routes.Profile: (context) => Profile(),
+        Routes.UpdatedList: (context) => UpdatedList(),
       },
     );
   }

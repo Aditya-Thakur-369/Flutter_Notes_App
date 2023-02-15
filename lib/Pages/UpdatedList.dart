@@ -12,14 +12,14 @@ import 'package:google_fonts/google_fonts.dart';
 import '../Modal/Operation.dart';
 import '../main.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class UpdatedList extends StatefulWidget {
+  const UpdatedList({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<UpdatedList> createState() => _UpdatedListState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _UpdatedListState extends State<UpdatedList> {
   final Stream<QuerySnapshot> data = Notes.readData();
   final GlobalKey sKey = GlobalKey<ScaffoldState>();
 
@@ -84,7 +84,7 @@ class _HomePageState extends State<HomePage> {
                       return Card(
                         child: Padding(
                           padding: EdgeInsets.only(left: 9, right: 9),
-                          child: ExpansionTile(
+                          child: ListTile(
                             title: Text(e["title"],
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
@@ -100,38 +100,8 @@ class _HomePageState extends State<HomePage> {
                                     fontSize: 20, color: Colors.blueGrey[200]),
                               ),
                             ),
-                            children: [
-                              const Divider(),
-                              ButtonBar(
-                                alignment: MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  IconButton(
-                                      onPressed: () => {
-                                            showDialog(
-                                              context: context,
-                                              builder: (context) {
-                                                return UpdateNotes(
-                                                  title: e["title"],
-                                                  body: e["body"],
-                                                  docID: e.id,
-                                                  sKey: sKey,
-                                                );
-                                              },
-                                            ),
-                                          },
-                                      icon: Icon(Icons.edit_note_rounded)),
-                                  IconButton(
-                                      onPressed: () async {
-                                        Response r =
-                                            await Notes.deletedata(docID: e.id);
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(SnackBar(
-                                                content: Text("${r.msg}")));
-                                      },
-                                      icon: Icon(Icons.delete)),
-                                ],
-                              ),
-                            ],
+                            trailing: Icon(Icons.more_vert),
+                            isThreeLine: true,
                           ),
                         ),
                       );

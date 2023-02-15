@@ -25,7 +25,8 @@ class _AddNotesState extends State<AddNotes> {
     if (formKey.currentState!.validate()) {
       Navigator.of(context, rootNavigator: true).pop('dialog');
       Response r = await Notes.addnote(title.text, body.text);
-      ScaffoldMessenger.of(widget.sKey.currentState!.context).showSnackBar(SnackBar(content: Text("${r.msg}")));
+      ScaffoldMessenger.of(widget.sKey.currentState!.context)
+          .showSnackBar(SnackBar(content: Text("${r.msg}")));
       // log(r);
     }
   }
@@ -61,8 +62,10 @@ class _AddNotesState extends State<AddNotes> {
               ),
               TextFormField(
                 controller: body,
+                keyboardType: TextInputType.multiline,
+                maxLines: 3,
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.only(left: 20),
+                  contentPadding: EdgeInsets.all(20),
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(30)),
                   label: Text("Body Of The Note"),
@@ -79,9 +82,13 @@ class _AddNotesState extends State<AddNotes> {
               ),
               ElevatedButton(
                   onPressed: () => processData(),
+                  style: ButtonStyle(
+                      shape: MaterialStateProperty.all(StadiumBorder()),
+                      padding: MaterialStateProperty.all(EdgeInsets.only(
+                          left: 55, right: 55, top: 10, bottom: 10))),
                   child: Text(
                     "Add Note",
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(color: Colors.white, fontSize: 20),
                   ))
             ],
           ),
@@ -90,7 +97,6 @@ class _AddNotesState extends State<AddNotes> {
     );
   }
 }
-
 
 class UpdateNotes extends StatefulWidget {
   const UpdateNotes({
@@ -118,8 +124,10 @@ class _UpdateNotesState extends State<UpdateNotes> {
     Future<void> processData() async {
       if (formkey.currentState!.validate()) {
         Navigator.of(context, rootNavigator: true).pop('dialog');
-        Response r = await Notes.UpdateData(title.text, body.text,widget.docID);
-        ScaffoldMessenger.of(widget.sKey.currentState!.context).showSnackBar(SnackBar(content: Text("${r.msg}")),
+        Response r =
+            await Notes.UpdateData(title.text, body.text, widget.docID);
+        ScaffoldMessenger.of(widget.sKey.currentState!.context).showSnackBar(
+          SnackBar(content: Text("${r.msg}")),
         );
       }
     }
