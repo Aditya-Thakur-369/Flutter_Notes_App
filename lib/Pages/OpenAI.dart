@@ -38,9 +38,7 @@ class OpenAI extends StatelessWidget {
               SizedBox(
                 height: 40,
               ),
-              TextFormField(
-                
-              ),
+              TextFormField(),
             ],
           ),
         ),

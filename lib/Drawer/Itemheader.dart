@@ -39,22 +39,7 @@ class _ItemheaderState extends State<Itemheader> {
                     ));
               },
             ),
-            ListTile(
-              leading: Icon(
-                Icons.logout_rounded,
-                size: 25,
-                color: Colors.black,
-              ),
-              title: Text(
-                "Log Out",
-                style: TextStyle(fontSize: 20, color: Colors.grey.shade500),
-              ),
-              onTap: () {
-                FirebaseAuth.instance.signOut().then((value) => Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const MainPage())));
-              },
-            ),
+            
             ListTile(
                 leading: Icon(
                   Icons.search_outlined,
@@ -80,6 +65,22 @@ class _ItemheaderState extends State<Itemheader> {
               onTap: () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => UpdatedList()));
+              },
+            ),
+            ListTile(
+              leading: Icon(
+                Icons.logout_rounded,
+                size: 25,
+                color: Colors.black,
+              ),
+              title: Text(
+                "Log Out",
+                style: TextStyle(fontSize: 20, color: Colors.grey.shade500),
+              ),
+              onTap: () {
+                FirebaseAuth.instance.signOut().then((value) => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const MainPage())));
               },
             ),
           ],
