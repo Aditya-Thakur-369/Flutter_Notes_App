@@ -1,4 +1,5 @@
 import 'package:crudapp/Pages/LogInPage.dart';
+import 'package:crudapp/Pages/OpenAI.dart';
 import 'package:crudapp/Pages/Profile.dart';
 import 'package:crudapp/Pages/SignUpPage.dart';
 import 'package:crudapp/Pages/UpdatedList.dart';
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
         Routes.HomePage: (context) => HomePage(),
         Routes.Profile: (context) => Profile(),
         Routes.UpdatedList: (context) => UpdatedList(),
+        Routes.OpenAI: (context) => OpenAI(),
       },
     );
   }

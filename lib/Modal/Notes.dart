@@ -14,7 +14,6 @@ class Option {
     this.body,
   });
 
-
   Option copyWith({
     String? title,
     String? body,
@@ -41,13 +40,63 @@ class Option {
 
   String toJson() => json.encode(toMap());
 
-  factory Option.fromJson(String source) => Option.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory Option.fromJson(String source) =>
+      Option.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() => 'Option(title: $title, body: $body)';
 
   @override
   bool operator ==(covariant Option other) {
+    if (identical(this, other)) return true;
+
+    return other.title == title && other.body == body;
+  }
+
+  @override
+  int get hashCode => title.hashCode ^ body.hashCode;
+}
+class Note {
+  final String title;
+  final String body;
+  Note({
+    required this.title,
+    required this.body,
+  });
+
+  Note copyWith({
+    String? title,
+    String? body,
+  }) {
+    return Note(
+      title: title ?? this.title,
+      body: body ?? this.body,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'title': title,
+      'body': body,
+    };
+  }
+
+  factory Note.fromMap(Map<String, dynamic> map) {
+    return Note(
+      title: map['title'] as String,
+      body: map['body'] as String,
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory Note.fromJson(String source) => Note.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  @override
+  String toString() => 'Note(title: $title, body: $body)';
+
+  @override
+  bool operator ==(covariant Note other) {
     if (identical(this, other)) return true;
   
     return 
@@ -59,13 +108,14 @@ class Option {
   int get hashCode => title.hashCode ^ body.hashCode;
 }
 
+
 class User {
   final String name;
   final String number;
   final String emil;
   final String imageurl;
 
-  final List<Map<String,dynamic>> Notes;
+  final List<Map<String, dynamic>> Notes;
 
   User({
     required this.name,
@@ -75,13 +125,12 @@ class User {
     required this.Notes,
   });
 
-
   User copyWith({
     String? name,
     String? number,
     String? emil,
     String? imageurl,
-    List<Map<String,dynamic>>? Notes,
+    List<Map<String, dynamic>>? Notes,
   }) {
     return User(
       name: name ?? this.name,
@@ -108,13 +157,18 @@ class User {
       number: map['number'] as String,
       emil: map['emil'] as String,
       imageurl: map['imageurl'] as String,
-      Notes: List<Map<String,dynamic>>.from((map['Notes'] as List<dynamic>).map<Map<String,dynamic>>((x) => x,),),
+      Notes: List<Map<String, dynamic>>.from(
+        (map['Notes'] as List<dynamic>).map<Map<String, dynamic>>(
+          (x) => x,
+        ),
+      ),
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory User.fromJson(String source) => User.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory User.fromJson(String source) =>
+      User.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
@@ -124,22 +178,20 @@ class User {
   @override
   bool operator ==(covariant User other) {
     if (identical(this, other)) return true;
-  
-    return 
-      other.name == name &&
-      other.number == number &&
-      other.emil == emil &&
-      other.imageurl == imageurl &&
-      listEquals(other.Notes, Notes);
+
+    return other.name == name &&
+        other.number == number &&
+        other.emil == emil &&
+        other.imageurl == imageurl &&
+        listEquals(other.Notes, Notes);
   }
 
   @override
   int get hashCode {
     return name.hashCode ^
-      number.hashCode ^
-      emil.hashCode ^
-      imageurl.hashCode ^
-      Notes.hashCode;
+        number.hashCode ^
+        emil.hashCode ^
+        imageurl.hashCode ^
+        Notes.hashCode;
   }
 }
-

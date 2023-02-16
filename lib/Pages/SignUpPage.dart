@@ -169,6 +169,7 @@ class SignUpPage extends StatelessWidget {
               ),
               ElevatedButton(
                   onPressed: () {
+                    // showDialog(context: context, builder: Container(height: 100 , width:  100 , backgroundColor  ));
                     MoveToLog();
                   },
                   style: ButtonStyle(

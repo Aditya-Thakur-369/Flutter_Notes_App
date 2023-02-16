@@ -6,4 +6,5 @@ class Routes {
   static String HomePage = "/HomePage";
   static String Profile = "/Profile";
   static String UpdatedList = "/UpdatedList";
+  static String OpenAI = "/OpenAI";
 }

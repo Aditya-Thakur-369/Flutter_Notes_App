@@ -133,7 +133,12 @@ class _UpdateNotesState extends State<UpdateNotes> {
     }
 
     return AlertDialog(
-      title: Text("Update"),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(30))),
+      title: Text(
+        "Update",
+        textAlign: TextAlign.center,
+      ),
       content: SizedBox(
         height: 275,
         child: SingleChildScrollView(
@@ -143,10 +148,10 @@ class _UpdateNotesState extends State<UpdateNotes> {
               children: [
                 TextFormField(
                   controller: title,
-                  decoration: InputDecoration(
-                    contentPadding: EdgeInsets.only(left: 20),
+                  decoration: const InputDecoration(
+                    contentPadding: EdgeInsets.all(20.0),
                     border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30)),
+                        borderRadius: BorderRadius.all(Radius.circular(30))),
                     label: Text("Title"),
                   ),
                   validator: (value) {
@@ -162,9 +167,11 @@ class _UpdateNotesState extends State<UpdateNotes> {
                   height: 20,
                 ),
                 TextFormField(
+                  keyboardType: TextInputType.multiline,
+                  maxLines: 3,
                   controller: body,
                   decoration: InputDecoration(
-                    contentPadding: EdgeInsets.only(left: 20),
+                    contentPadding: EdgeInsets.all(20),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30)),
                     label: Text("Body Of Note"),
@@ -184,8 +191,9 @@ class _UpdateNotesState extends State<UpdateNotes> {
                       processData();
                     },
                     style: ButtonStyle(
-                      padding: MaterialStateProperty.all(
-                          EdgeInsets.only(left: 50, right: 50)),
+                      shape: MaterialStateProperty.all(StadiumBorder()),
+                      padding: MaterialStateProperty.all(EdgeInsets.only(
+                          left: 50, right: 50, top: 10, bottom: 10)),
                       backgroundColor: MaterialStateProperty.all(Colors.blue),
                     ),
                     child: Text(

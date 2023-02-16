@@ -25,6 +25,7 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   final GlobalKey key1 = GlobalKey<ScaffoldState>();
   bool hasData = false;
+
   bool emailverify = false;
   TextEditingController dob = TextEditingController();
   TextEditingController name = TextEditingController();
@@ -176,33 +177,69 @@ class _ProfileState extends State<Profile> {
                       const SizedBox(
                         height: 15,
                       ),
-                      TextFormField(
-                        controller: email,
-                        decoration: InputDecoration(
-                          suffixIcon: IconButton(
-                              onPressed: () {
-                                emailverify = FirebaseAuth
-                                    .instance.currentUser!.emailVerified;
-                                print(emailverify);
-                                if (emailverify) {
-                                  Fluttertoast.showToast(
-                                      msg: "Email Already Verified",
-                                      backgroundColor: Colors.grey);
-                                } else {
-                                  sendmail();
-                                }
-                              },
-                              icon: Icon(
-                                Icons.email_rounded,
-                                size: 30,
-                                color: Colors.blue[500],
-                              )),
-                          // suffixText: TextButton(onPressed: () => , child: Text("Verify"),  ),
-                          labelText: "   Email",
+                      Row(
+                        children: [
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width - 140,
+                            height: 70,
+                            child: TextFormField(
+                              enabled: false,
+                              // controller: email,
+                              initialValue:
+                                  FirebaseAuth.instance.currentUser!.email,
+                              decoration: InputDecoration(
+                                suffixIcon: IconButton(
+                                    onPressed: () {
+                                      emailverify = FirebaseAuth
+                                          .instance.currentUser!.emailVerified;
+                                      print(emailverify);
+                                      if (emailverify) {
+                                        Fluttertoast.showToast(
+                                            msg: "Email Already Verified",
+                                            backgroundColor: Colors.grey);
+                                      } else {
+                                        sendmail();
+                                      }
+                                    },
+                                    icon: Icon(
+                                      Icons.email_rounded,
+                                      size: 30,
+                                      color: Colors.blue[500],
+                                    )),
+                                // suffixText: TextButton(onPressed: () => , child: Text("Verify"),  ),
+                                labelText: "   Email",
 
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30)),
-                        ),
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(30)),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 5),
+                          SizedBox(
+                            width: 100,
+                            child: Center(
+                              child: !FirebaseAuth
+                                      .instance.currentUser!.emailVerified
+                                  ? TextButton(
+                                      onPressed: () async {
+                                        await FirebaseAuth.instance.currentUser!
+                                            .sendEmailVerification();
+                                        // ignore: use_build_context_synchronously
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                            content: Text(
+                                                "Verification mail sent to your email, check your inbox."),
+                                          ),
+                                        );
+                                      },
+                                      child: const Text("Verify Mail"))
+                                  : Text("Verified",
+                                      style: TextStyle(
+                                          color: Colors.green.shade800)),
+                            ),
+                          )
+                        ],
                       ),
                       const SizedBox(
                         height: 15,
