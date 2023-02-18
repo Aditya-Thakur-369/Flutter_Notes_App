@@ -1,6 +1,7 @@
 // ignore_for_file: unused_import
 
 import 'dart:math';
+import 'dart:ui';
 import 'package:email_auth/email_auth.dart';
 import 'package:crudapp/BackEnd/models.dart';
 import 'package:crudapp/Modal/Response.dart';
@@ -101,235 +102,254 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     var data;
-    return Scaffold(
-      key: key1,
-      appBar: AppBar(
-        backgroundColor: Colors.blue,
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            GestureDetector(
-              onTap: () {
-                UploadImage();
-              },
-              child: Container(
-                margin: const EdgeInsets.only(top: 20),
-                height: 95,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                      image: AssetImage("assets/Images/profile.png")),
+    return Container(
+      decoration: const BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [Colors.purple, Colors.orange, Colors.indigo])),
+      child: Scaffold(
+        key: key1,
+        appBar: AppBar(
+          backgroundColor: Colors.blue,
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              GestureDetector(
+                onTap: () {
+                  UploadImage();
+                },
+                child: Container(
+                  margin: const EdgeInsets.only(top: 20),
+                  height: 95,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                        image: AssetImage("assets/Images/profile.png")),
+                  ),
                 ),
               ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(top: 10),
-              height: 70,
-              width: double.infinity,
-              child: Column(
-                children: [
-                  Text(
-                    name.text.isEmpty ? "Make Your Profile" : name.text,
-                    // data.name,
-                    style: TextStyle(
-                        fontSize: 30,
-                        color: Colors.grey[400],
-                        fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    email.text.isEmpty ? " Enter Detailes Below  " : email.text,
-                    style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.grey[300],
-                        fontWeight: FontWeight.w100),
-                  ),
-                ],
+              Container(
+                margin: const EdgeInsets.only(top: 10),
+                height: 70,
+                width: double.infinity,
+                child: Column(
+                  children: [
+                    Text(
+                      name.text.isEmpty ? "Make Your Profile" : name.text,
+                      // data.name,
+                      style: TextStyle(
+                          fontSize: 30,
+                          color: Colors.grey[400],
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      email.text.isEmpty
+                          ? " Enter Detailes Below  "
+                          : email.text,
+                      style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.grey[400],
+                          fontWeight: FontWeight.w100),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            const Divider(
-              height: 5,
-              thickness: 1,
-            ),
-            Container(
-              margin: const EdgeInsets.only(top: 20, left: 10, right: 10),
-              child: SingleChildScrollView(
-                child: Form(
-                  key: formkey1,
-                  child: Column(
-                    children: [
-                      TextFormField(
-                        controller: name,
-                        decoration: InputDecoration(
-                          suffixIcon: Icon(
-                            Icons.near_me,
-                            size: 30,
-                            color: Colors.blue[200],
-                          ),
-                          labelText: "Name",
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30)),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      Row(
-                        children: [
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width - 140,
-                            height: 70,
-                            child: TextFormField(
-                              enabled: false,
-                              // controller: email,
-                              initialValue:
-                                  FirebaseAuth.instance.currentUser!.email,
-                              decoration: InputDecoration(
-                                suffixIcon: IconButton(
-                                    onPressed: () {
-                                      emailverify = FirebaseAuth
-                                          .instance.currentUser!.emailVerified;
-                                      print(emailverify);
-                                      if (emailverify) {
-                                        Fluttertoast.showToast(
-                                            msg: "Email Already Verified",
-                                            backgroundColor: Colors.grey);
-                                      } else {
-                                        sendmail();
-                                      }
-                                    },
-                                    icon: Icon(
-                                      Icons.email_rounded,
-                                      size: 30,
-                                      color: Colors.blue[500],
-                                    )),
-                                // suffixText: TextButton(onPressed: () => , child: Text("Verify"),  ),
-                                labelText: "   Email",
-
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(30)),
-                              ),
+              const SizedBox(
+                height: 10,
+              ),
+              const Divider(
+                color: Colors.grey,
+                height: 5,
+                thickness: 1,
+              ),
+              Container(
+                margin: const EdgeInsets.only(top: 20, left: 10, right: 10),
+                child: SingleChildScrollView(
+                  child: Form(
+                    key: formkey1,
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          controller: name,
+                          decoration: InputDecoration(
+                            suffixIcon: Icon(
+                              Icons.near_me,
+                              size: 30,
+                              color: Colors.blue[200],
                             ),
+                            labelText: "Name",
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(30)),
                           ),
-                          const SizedBox(width: 5),
-                          SizedBox(
-                            width: 100,
-                            child: Center(
-                              child: !FirebaseAuth
-                                      .instance.currentUser!.emailVerified
-                                  ? TextButton(
-                                      onPressed: () async {
-                                        await FirebaseAuth.instance.currentUser!
-                                            .sendEmailVerification();
-                                        // ignore: use_build_context_synchronously
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          const SnackBar(
-                                            content: Text(
-                                                "Verification mail sent to your email, check your inbox."),
-                                          ),
-                                        );
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        Row(
+                          children: [
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width - 140,
+                              height: 70,
+                              child: TextFormField(
+                                enabled: false,
+                                // controller: email,
+                                initialValue:
+                                    FirebaseAuth.instance.currentUser!.email,
+                                decoration: InputDecoration(
+                                  suffixIcon: IconButton(
+                                      onPressed: () {
+                                        emailverify = FirebaseAuth.instance
+                                            .currentUser!.emailVerified;
+                                        print(emailverify);
+                                        if (emailverify) {
+                                          Fluttertoast.showToast(
+                                              msg: "Email Already Verified",
+                                              backgroundColor: Colors.grey);
+                                        } else {
+                                          sendmail();
+                                        }
                                       },
-                                      child: const Text("Verify Mail"))
-                                  : Text("Verified",
-                                      style: TextStyle(
-                                          color: Colors.green.shade800)),
-                            ),
-                          )
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      TextFormField(
-                        controller: number,
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
-                          suffixIcon: Icon(
-                            Icons.numbers_rounded,
-                            size: 30,
-                            color: Colors.blue[200],
-                          ),
-                          labelText: "   Number",
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30)),
-                        ),
-                        validator: (value) {
-                          if (value!.length != 10) {
-                            return "Please Enter a Valid Number ";
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      TextFormField(
-                        controller: dob,
-                        decoration: InputDecoration(
-                          suffixIcon: const Icon(
-                            Icons.calendar_today,
-                            color: Colors.blue,
-                          ),
-                          labelText: "DOB",
-                          // label: Padding(padding: EdgeInsets.only(left: 1)),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30)),
-                        ),
-                        readOnly: true,
-                        onTap: () async {
-                          DateTime? pickedDate = await showDatePicker(
-                              context: context,
-                              initialDate: DateTime.now(),
-                              firstDate: DateTime(1950),
-                              lastDate: DateTime(2100));
+                                      icon: Icon(
+                                        Icons.email_rounded,
+                                        size: 30,
+                                        color: Colors.blue[500],
+                                      )),
+                                  // suffixText: TextButton(onPressed: () => , child: Text("Verify"),  ),
+                                  labelText: "   Email",
 
-                          if (pickedDate != null) {
-                            String formattedDate =
-                                DateFormat('yyyy-MM-dd').format(pickedDate);
-                            setState(() {
-                              dob.text = formattedDate;
-                            });
-                          } else {}
-                        },
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      ElevatedButton.icon(
-                        onPressed: () {
-                          movetosavedata();
-                        },
-                        icon: const Icon(
-                          Icons.send,
-                          // size: 30,
-                        ),
-                        style: ButtonStyle(
-                          shape:
-                              MaterialStateProperty.all(const StadiumBorder()),
-                          padding: MaterialStateProperty.all(
-                              const EdgeInsets.only(
-                                  left: 55, right: 55, top: 10, bottom: 10)),
-                          elevation: MaterialStateProperty.all(1),
-                        ),
-                        label: Text(
-                          hasData ? "Update" : "Submit",
-                          style: const TextStyle(
-                              // fontSize: 25,
-                              // color: Colors.white,
-                              // fontWeight: FontWeight.bold,
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(30)),
+                                ),
                               ),
+                            ),
+                            const SizedBox(width: 5),
+                            SizedBox(
+                              width: 100,
+                              child: Center(
+                                child: !FirebaseAuth
+                                        .instance.currentUser!.emailVerified
+                                    ? TextButton(
+                                        onPressed: () async {
+                                          await FirebaseAuth
+                                              .instance.currentUser!
+                                              .sendEmailVerification();
+                                          // ignore: use_build_context_synchronously
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            const SnackBar(
+                                              content: Text(
+                                                  "Verification mail sent to your email, check your inbox."),
+                                            ),
+                                          );
+                                        },
+                                        child: const Text("Verify Mail"))
+                                    : Text("Verified",
+                                        style: TextStyle(
+                                            color: Colors.green.shade800)),
+                              ),
+                            )
+                          ],
                         ),
-                      ),
-                    ],
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        TextFormField(
+                          controller: number,
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            suffixIcon: Icon(
+                              Icons.numbers_rounded,
+                              size: 30,
+                              color: Colors.blue[200],
+                            ),
+                            labelText: "   Number",
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(30)),
+                          ),
+                          validator: (value) {
+                            if (value!.length != 10) {
+                              return "Please Enter a Valid Number ";
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        TextFormField(
+                          controller: dob,
+                          decoration: InputDecoration(
+                            suffixIcon: const Icon(
+                              Icons.calendar_today,
+                              color: Colors.blue,
+                            ),
+                            labelText: "DOB",
+                            // label: Padding(padding: EdgeInsets.only(left: 1)),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(30)),
+                          ),
+                          readOnly: true,
+                          onTap: () async {
+                            DateTime? pickedDate = await showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime(1950),
+                                lastDate: DateTime(2100));
+
+                            if (pickedDate != null) {
+                              String formattedDate =
+                                  DateFormat('yyyy-MM-dd').format(pickedDate);
+                              setState(() {
+                                dob.text = formattedDate;
+                              });
+                            } else {}
+                          },
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        ElevatedButton.icon(
+                          onPressed: () {
+                            movetosavedata();
+                          },
+                          icon: const Icon(
+                            Icons.send,
+                            color: Colors.white,
+                            // size: 30,
+                          ),
+                          style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all<Color>(Colors.blue),
+                            shape: MaterialStateProperty.all(
+                                RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(30)))),
+                            padding: MaterialStateProperty.all(
+                                const EdgeInsets.only(
+                                    left: 125,
+                                    right: 125,
+                                    top: 10,
+                                    bottom: 10)),
+                            elevation: MaterialStateProperty.all(1),
+                          ),
+                          label: Text(
+                            hasData ? "Update" : "Submit",
+                            style: const TextStyle(
+                              fontSize: 17,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

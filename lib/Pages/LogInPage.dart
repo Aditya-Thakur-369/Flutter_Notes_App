@@ -35,6 +35,18 @@ class LogInPage extends StatelessWidget {
               builder: (context) {
                 return AlertDialog(
                   content: const Text("Please Enter A Valid Email"),
+                  actions: [
+                    ButtonBar(
+                      alignment: MainAxisAlignment.center,
+                      children: [
+                        TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: Text("OK"))
+                      ],
+                    )
+                  ],
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(30))),
                 );
               },
             );
@@ -44,6 +56,18 @@ class LogInPage extends StatelessWidget {
               builder: (context) {
                 return AlertDialog(
                   content: const Text("Wrong Password"),
+                  actions: [
+                    ButtonBar(
+                      alignment: MainAxisAlignment.center,
+                      children: [
+                        TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: Text("OK"))
+                      ],
+                    )
+                  ],
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(30))),
                 );
               },
             );
@@ -53,6 +77,18 @@ class LogInPage extends StatelessWidget {
               builder: (context) {
                 return AlertDialog(
                   content: const Text("No Internet Connection"),
+                  actions: [
+                    ButtonBar(
+                      alignment: MainAxisAlignment.center,
+                      children: [
+                        TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: Text("OK"))
+                      ],
+                    )
+                  ],
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(30))),
                 );
               },
             );
@@ -62,6 +98,18 @@ class LogInPage extends StatelessWidget {
               builder: (context) {
                 return AlertDialog(
                   content: const Text("Something Went Wrong"),
+                  actions: [
+                    ButtonBar(
+                      alignment: MainAxisAlignment.center,
+                      children: [
+                        TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: Text("OK"))
+                      ],
+                    )
+                  ],
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(30))),
                 );
               },
             );
@@ -71,6 +119,18 @@ class LogInPage extends StatelessWidget {
               builder: (context) {
                 return AlertDialog(
                   content: const Text("Something Went Wrong"),
+                  actions: [
+                    ButtonBar(
+                      alignment: MainAxisAlignment.center,
+                      children: [
+                        TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: Text("OK"))
+                      ],
+                    )
+                  ],
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(30))),
                 );
               },
             );
@@ -138,7 +198,7 @@ class LogInPage extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                height: 10,
+                height: 5,
               ),
               Padding(
                 padding:
@@ -168,9 +228,12 @@ class LogInPage extends StatelessWidget {
                     MoveToHome();
                   },
                   style: ButtonStyle(
-                      shape: MaterialStateProperty.all(StadiumBorder()),
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.blue),
+                      shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)))),
                       padding: MaterialStateProperty.all(EdgeInsets.only(
-                          left: 55, right: 55, top: 10, bottom: 10)),
+                          left: 130, right: 130, top: 10, bottom: 10)),
                       elevation: MaterialStateProperty.all(1)),
                   child: Text(
                     "Log In",
@@ -179,10 +242,18 @@ class LogInPage extends StatelessWidget {
                         fontSize: 20,
                         fontWeight: FontWeight.bold),
                   )),
-              TextButton(
-                  onPressed: () => Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => SignUpPage())),
-                  child: Text("Create An Account")),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("Don't Have an Account ?"),
+                  TextButton(
+                      onPressed: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SignUpPage())),
+                      child: Text("Create An Account")),
+                ],
+              ),
             ]),
           ),
         ),

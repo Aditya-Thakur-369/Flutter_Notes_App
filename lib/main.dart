@@ -1,13 +1,11 @@
+import 'package:crudapp/Pages/ChatScreen.dart';
 import 'package:crudapp/Pages/LogInPage.dart';
-import 'package:crudapp/Pages/OpenAI.dart';
 import 'package:crudapp/Pages/Profile.dart';
 import 'package:crudapp/Pages/SignUpPage.dart';
-import 'package:crudapp/Pages/UpdatedList.dart';
-import 'package:crudapp/Pages/UpdatedList.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'Pages/ChatScreen.dart';
 import 'Pages/Home.dart';
-import 'Pages/UpdatedList.dart';
 import 'Routes/Routes.dart';
 import 'Theme/Theme.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -36,8 +34,7 @@ class MyApp extends StatelessWidget {
         Routes.LogInPage: (context) => LogInPage(),
         Routes.HomePage: (context) => HomePage(),
         Routes.Profile: (context) => Profile(),
-        Routes.UpdatedList: (context) => UpdatedList(),
-        Routes.OpenAI: (context) => OpenAI(),
+        Routes.ChatScreen: (context) => ChatScreen(),
       },
     );
   }
@@ -65,3 +62,8 @@ class _MainPageState extends State<MainPage> {
     );
   }
 }
+
+
+// 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
+
+//  Trywithadi API KEY :- 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

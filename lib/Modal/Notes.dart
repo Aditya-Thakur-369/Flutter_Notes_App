@@ -3,7 +3,62 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
+
+class NotesModel {
+  final String uid;
+  List<Map<String , dynamic>>? notes;
+  NotesModel({
+    required this.uid,
+    this.notes,
+  });
+
+
+  NotesModel copyWith({
+    String? uid,
+    List<Map<String , dynamic>>? notes,
+  }) {
+    return NotesModel(
+      uid: uid ?? this.uid,
+      notes: notes ?? this.notes,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'uid': uid,
+      'notes': notes,
+    };
+  }
+
+  factory NotesModel.fromMap(Map<String, dynamic> map) { 
+    return NotesModel(
+      uid: map['uid'] as String,
+      notes: map['notes'] != null ? List<Map<String , dynamic>>.from((map['notes'] as List<int>).map<Map<String , dynamic>?>((x) => x as Map<String, dynamic>,),) : null,
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory NotesModel.fromJson(String source) => NotesModel.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  @override
+  String toString() => 'NotesModel(uid: $uid, notes: $notes)';
+
+  @override
+  bool operator ==(covariant NotesModel other) {
+    if (identical(this, other)) return true;
+    final listEquals = const DeepCollectionEquality().equals;
+  
+    return 
+      other.uid == uid &&
+      listEquals(other.notes, notes);
+  }
+
+  @override
+  int get hashCode => uid.hashCode ^ notes.hashCode;
+}
 
 class Option {
   String? title;
@@ -16,7 +71,7 @@ class Option {
 
   Option copyWith({
     String? title,
-    String? body,
+    String? body, 
   }) {
     return Option(
       title: title ?? this.title,

@@ -1,6 +1,5 @@
-import 'package:crudapp/Pages/OpenAI.dart';
+import 'package:crudapp/Pages/ChatScreen.dart';
 import 'package:crudapp/Pages/Profile.dart';
-import 'package:crudapp/Pages/UpdatedList.dart';
 import 'package:crudapp/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -39,7 +38,6 @@ class _ItemheaderState extends State<Itemheader> {
                     ));
               },
             ),
-            
             ListTile(
                 leading: Icon(
                   Icons.search_outlined,
@@ -52,21 +50,8 @@ class _ItemheaderState extends State<Itemheader> {
                 ),
                 onTap: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => OpenAI()));
+                      MaterialPageRoute(builder: (context) => ChatScreen()));
                 }),
-            ListTile(
-              leading: Icon(
-                Icons.update_disabled_outlined,
-                size: 25,
-                color: Colors.black,
-              ),
-              title: Text("Updated",
-                  style: TextStyle(fontSize: 20, color: Colors.grey)),
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => UpdatedList()));
-              },
-            ),
             ListTile(
               leading: Icon(
                 Icons.logout_rounded,

@@ -5,6 +5,5 @@ class Routes {
   static String LogInPage = "/LogInPage";
   static String HomePage = "/HomePage";
   static String Profile = "/Profile";
-  static String UpdatedList = "/UpdatedList";
-  static String OpenAI = "/OpenAI";
+  static String ChatScreen = "/ChatScreen";
 }

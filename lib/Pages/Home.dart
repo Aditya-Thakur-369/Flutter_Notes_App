@@ -36,7 +36,7 @@ class _HomePageState extends State<HomePage> {
           style: GoogleFonts.lato(fontSize: 25.0, color: Colors.white),
         ),
         actions: [
-          IconButton(
+          IconButton( 
               onPressed: () => FirebaseAuth.instance.signOut().then((value) =>
                   Navigator.push(
                       context,
@@ -84,56 +84,79 @@ class _HomePageState extends State<HomePage> {
                   child: ListView(
                     children: snapshot.data!.docs.map((e) {
                       return Card(
+                        elevation: 1,
+                        margin: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 16.0),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                         child: Padding(
                           padding: EdgeInsets.only(left: 9, right: 9),
-                          child: ExpansionTile(
-                            title: Text(e["title"],
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    letterSpacing: 2,
-                                    fontSize: 25.0,
-                                    fontWeight: FontWeight.bold)),
+                          child: ListTile(
+                            title: Text(
+                              e["title"].toUpperCase(),
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.lato(
+                                  letterSpacing: 2,
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.bold),
+                            ),
                             subtitle: Padding(
                               padding: const EdgeInsets.only(top: 20),
                               child: Text(
                                 "${e["body"]}",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    fontSize: 20, color: Colors.blueGrey[200]),
+                                    fontSize: 20, color: Colors.blueGrey[300]),
                               ),
                             ),
-                            children: [
-                              const Divider(),
-                              ButtonBar(
-                                alignment: MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  IconButton(
-                                      onPressed: () => {
-                                            showDialog(
-                                              context: context,
-                                              builder: (context) {
-                                                return UpdateNotes(
-                                                  title: e["title"],
-                                                  body: e["body"],
-                                                  docID: e.id,
-                                                  sKey: sKey,
-                                                );
-                                              },
-                                            ),
-                                          },
-                                      icon: Icon(Icons.edit_note_rounded)),
-                                  IconButton(
-                                      onPressed: () async {
-                                        Response r =
-                                            await Notes.deletedata(docID: e.id);
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(SnackBar(
-                                                content: Text("${r.msg}")));
-                                      },
-                                      icon: Icon(Icons.delete)),
-                                ],
-                              ),
-                            ],
+                            trailing: PopupMenuButton<String>(
+                              onSelected: (String result) {
+                                switch (result) {
+                                  case 'edit':
+                                    break;
+                                  case 'delete':
+                                    break;
+                                }
+                              },
+                              itemBuilder: (BuildContext context) =>
+                                  <PopupMenuEntry<String>>[
+                                PopupMenuItem<String>(
+                                  value: 'edit',
+                                  child: ListTile(
+                                    leading: Icon(Icons.edit),
+                                    title: Text('Edit'),
+                                    onTap: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return UpdateNotes(
+                                            title: e["title"],
+                                            body: e["body"],
+                                            docID: e.id,
+                                            sKey: sKey,
+                                          );
+                                        },
+                                      );
+                                    },
+                                  ),
+                                ),
+                                PopupMenuItem<String>(
+                                  value: 'delete',
+                                  child: ListTile(
+                                    leading: Icon(Icons.delete),
+                                    title: Text('Delete'),
+                                    onTap: () async {
+                                      Response r =
+                                          await Notes.deletedata(docID: e.id);
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(SnackBar(
+                                              content: Text("${r.msg}")));
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                            isThreeLine: true,
                           ),
                         ),
                       );

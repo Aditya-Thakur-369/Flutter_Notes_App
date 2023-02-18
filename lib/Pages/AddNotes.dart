@@ -83,6 +83,8 @@ class _AddNotesState extends State<AddNotes> {
               ElevatedButton(
                   onPressed: () => processData(),
                   style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.blue),
                       shape: MaterialStateProperty.all(StadiumBorder()),
                       padding: MaterialStateProperty.all(EdgeInsets.only(
                           left: 55, right: 55, top: 10, bottom: 10))),

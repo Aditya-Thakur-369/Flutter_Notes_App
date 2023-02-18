@@ -42,7 +42,25 @@ class SignUpPage extends StatelessWidget {
               context: context,
               builder: (context) {
                 return AlertDialog(
-                  content: const Text("Please Enter A Valid Email"),
+                  content: const Text(
+                    "Please Enter A Valid Email",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  actions: [
+                    ButtonBar(
+                      alignment: MainAxisAlignment.center,
+                      children: [
+                        TextButton(
+                          child: Text("OK"),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        )
+                      ],
+                    )
+                  ],
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(30))),
                 );
               },
             );
@@ -52,6 +70,18 @@ class SignUpPage extends StatelessWidget {
               builder: (context) {
                 return AlertDialog(
                   content: const Text("PLease Enter A Strong Password"),
+                  actions: [
+                    ButtonBar(
+                      alignment: MainAxisAlignment.center,
+                      children: [
+                        TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: Text("OK"))
+                      ],
+                    )
+                  ],
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(30))),
                 );
               },
             );
@@ -60,7 +90,42 @@ class SignUpPage extends StatelessWidget {
               context: context,
               builder: (context) {
                 return AlertDialog(
-                  content: const Text("PLease Enter A Strong Password"),
+                  content:
+                      const Text("This Email is Already Registered With Us"),
+                  actions: [
+                    ButtonBar(
+                      alignment: MainAxisAlignment.center,
+                      children: [
+                        TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: Text("OK"))
+                      ],
+                    )
+                  ],
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(30))),
+                );
+              },
+            );
+          } else if (e.code == "network-request-failed") {
+            showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  content:
+                      const Text("Network Error Please Check Your Internet"),
+                  actions: [
+                    ButtonBar(
+                      alignment: MainAxisAlignment.center,
+                      children: [
+                        TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: Text("OK"))
+                      ],
+                    )
+                  ],
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(30))),
                 );
               },
             );
@@ -78,12 +143,12 @@ class SignUpPage extends StatelessWidget {
             child: Column(children: [
               SvgPicture.asset(
                 "assets/Images/referal.svg",
-                height: 300.0,
-                width: 300.0,
+                height: 280.0,
+                width: 280.0,
                 fit: BoxFit.cover,
               ),
               SizedBox(
-                height: 30,
+                height: 20,
               ),
               Padding(
                 padding: EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 8.0),
@@ -96,7 +161,7 @@ class SignUpPage extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                height: 10,
+                height: 5,
               ),
               Padding(
                 padding:
@@ -118,7 +183,7 @@ class SignUpPage extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                height: 10,
+                height: 5,
               ),
               Padding(
                 padding:
@@ -143,7 +208,7 @@ class SignUpPage extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                height: 10,
+                height: 5,
               ),
               Padding(
                 padding:
@@ -173,18 +238,29 @@ class SignUpPage extends StatelessWidget {
                     MoveToLog();
                   },
                   style: ButtonStyle(
-                      shape: MaterialStateProperty.all(StadiumBorder()),
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.blue),
+                      shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)))),
                       padding: MaterialStateProperty.all(EdgeInsets.only(
-                          left: 55, right: 55, top: 10, bottom: 10))),
+                          left: 125, right: 125, top: 10, bottom: 10))),
                   child: Text(
                     "Sign Up",
                     style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold),
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20),
                   )),
-              TextButton(
-                  onPressed: () => Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => LogInPage())),
-                  child: Text("Log In")),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("Already Have an Account ?"),
+                  TextButton(
+                      onPressed: () => Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => LogInPage())),
+                      child: Text("Log In")),
+                ],
+              ),
               SizedBox(
                 height: 10.0,
               )
