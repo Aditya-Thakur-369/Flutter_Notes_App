@@ -1,14 +1,14 @@
-import 'package:crudapp/Pages/ChatScreen.dart';
-import 'package:crudapp/Pages/LogInPage.dart';
-import 'package:crudapp/Pages/Profile.dart';
-import 'package:crudapp/Pages/SignUpPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+
 import 'Pages/ChatScreen.dart';
 import 'Pages/Home.dart';
+import 'Pages/LogInPage.dart';
+import 'Pages/Profile.dart';
+import 'Pages/SignUpPage.dart';
 import 'Routes/Routes.dart';
 import 'Theme/Theme.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -16,7 +16,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -30,11 +30,11 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: const MainPage(),
       routes: {
-        Routes.SignUpPage: (context) => SignUpPage(),
-        Routes.LogInPage: (context) => LogInPage(),
-        Routes.HomePage: (context) => HomePage(),
-        Routes.Profile: (context) => Profile(),
-        Routes.ChatScreen: (context) => ChatScreen(),
+        Routes.signUpPage: (context) => const SignUpPage(),
+        Routes.logInPage: (context) => const LogInPage(),
+        Routes.homePage: (context) => const HomePage(),
+        Routes.profile: (context) => const Profile(),
+        Routes.chatScreen: (context) => const ChatScreen(),
       },
     );
   }

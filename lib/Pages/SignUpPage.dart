@@ -28,8 +28,10 @@ class SignUpPage extends StatelessWidget {
               .then(
             (value) async {
               await UserData.userdata(value.user!.uid);
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => LogInPage()));
+              if (context.mounted) {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const LogInPage()));
+              }
             },
           );
           Fluttertoast.showToast(
@@ -152,12 +154,9 @@ class SignUpPage extends StatelessWidget {
               ),
               Padding(
                 padding: EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 8.0),
-                child: Container(
-                  // alignment: Alignment.center,
-                  child: Text(
-                    "Register",
-                    style: GoogleFonts.lato(fontSize: 50.0, color: Colors.blue),
-                  ),
+                child: Text(
+                  "Register",
+                  style: GoogleFonts.lato(fontSize: 50.0, color: Colors.blue),
                 ),
               ),
               SizedBox(

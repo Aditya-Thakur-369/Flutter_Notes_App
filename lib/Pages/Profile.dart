@@ -1,18 +1,10 @@
-// ignore_for_file: unused_import
+import 'dart:developer';
 
-import 'dart:math';
-import 'dart:ui';
-import 'package:email_auth/email_auth.dart';
 import 'package:crudapp/BackEnd/models.dart';
-import 'package:crudapp/Modal/Response.dart';
-import 'package:dob_input_field/dob_input_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'dart:io';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../BackEnd/UserData.dart';
 
@@ -33,6 +25,7 @@ class _ProfileState extends State<Profile> {
   TextEditingController email = TextEditingController();
   TextEditingController number = TextEditingController();
   final formkey1 = GlobalKey<FormState>();
+  @override
   void initState() {
     // dob.text = " ";
     super.initState();
@@ -46,7 +39,7 @@ class _ProfileState extends State<Profile> {
       await user.sendEmailVerification();
     } catch (e) {
       // Fluttertoast.showToast(msg: e.toString(), backgroundColor: Colors.grey);
-      print(e.toString());
+      log(e.toString());
     }
   }
 
@@ -70,12 +63,12 @@ class _ProfileState extends State<Profile> {
       try {
         Navigator.of(context, rootNavigator: true).pop('dialog');
         UserModel data = UserModel(
+            uid: FirebaseAuth.instance.currentUser!.uid,
             dob: dob.text,
             mail: email.text,
             name: name.text,
             number: number.text);
-        Response r = await UserData.profile(
-            data, FirebaseAuth.instance.currentUser!.uid);
+        await UserData.profile(data, FirebaseAuth.instance.currentUser!.uid);
         // ScaffoldMessenger.of(widget.skey.currentState!.context).showSnackBar(SnackBar(content: Text("${r.msg}")));
         Fluttertoast.showToast(
           msg: "Profile Updated",
@@ -83,13 +76,13 @@ class _ProfileState extends State<Profile> {
           fontSize: 20,
         );
       } catch (e) {
-        print(e.toString());
+        log(e.toString());
       }
     }
   }
 
-  UploadImage() async {
-    final image = await ImagePicker().pickImage(
+  uploadImage() async {
+    await ImagePicker().pickImage(
         source: ImageSource.gallery,
         maxWidth: 512,
         maxHeight: 512,
@@ -101,7 +94,6 @@ class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
-    var data;
     return Container(
       decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -118,7 +110,7 @@ class _ProfileState extends State<Profile> {
             children: [
               GestureDetector(
                 onTap: () {
-                  UploadImage();
+                  uploadImage();
                 },
                 child: Container(
                   margin: const EdgeInsets.only(top: 20),
@@ -202,7 +194,7 @@ class _ProfileState extends State<Profile> {
                                       onPressed: () {
                                         emailverify = FirebaseAuth.instance
                                             .currentUser!.emailVerified;
-                                        print(emailverify);
+                                        log("$emailverify");
                                         if (emailverify) {
                                           Fluttertoast.showToast(
                                               msg: "Email Already Verified",
@@ -323,7 +315,7 @@ class _ProfileState extends State<Profile> {
                             backgroundColor:
                                 MaterialStateProperty.all<Color>(Colors.blue),
                             shape: MaterialStateProperty.all(
-                                RoundedRectangleBorder(
+                                const RoundedRectangleBorder(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(30)))),
                             padding: MaterialStateProperty.all(

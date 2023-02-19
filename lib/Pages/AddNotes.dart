@@ -1,15 +1,19 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:crudapp/BackEnd/UserData.dart';
 import 'package:crudapp/Modal/Response.dart';
 import 'package:flutter/material.dart';
+import '../BackEnd/models.dart';
 import '../Modal/Operation.dart';
 
 class AddNotes extends StatefulWidget {
   const AddNotes({
     Key? key,
     required this.sKey,
+    required this.data,
   }) : super(key: key);
 
   final GlobalKey<State<StatefulWidget>> sKey;
+  final UserModel data;
 
   @override
   State<AddNotes> createState() => _AddNotesState();
@@ -24,9 +28,28 @@ class _AddNotesState extends State<AddNotes> {
   Future<void> processData() async {
     if (formKey.currentState!.validate()) {
       Navigator.of(context, rootNavigator: true).pop('dialog');
-      Response r = await Notes.addnote(title.text, body.text);
-      ScaffoldMessenger.of(widget.sKey.currentState!.context)
-          .showSnackBar(SnackBar(content: Text("${r.msg}")));
+
+      Map<String, dynamic> d = {'title': title.text, 'body': body.text};
+      widget.data.notes ??= [];
+      widget.data.notes!.add(d);
+
+      bool res = await Notes.setData(widget.data.toMap());
+      String msg = "";
+      if (res) {
+        msg = "Note added!!";
+      } else {
+        msg = "Something went wrong!!";
+      }
+      if (context.mounted) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(msg)));
+
+        Navigator.pop(context);
+      }
+
+      // Response r = await Notes.addnote(title.text, body.text);
+      // ScaffoldMessenger.of(widget.sKey.currentState!.context)
+      //     .showSnackBar(SnackBar(content: Text("${r.msg}")));
       // log(r);
     }
   }
@@ -65,10 +88,10 @@ class _AddNotesState extends State<AddNotes> {
                 keyboardType: TextInputType.multiline,
                 maxLines: 3,
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.all(20),
+                  contentPadding: const EdgeInsets.all(20),
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(30)),
-                  label: Text("Body Of The Note"),
+                  label: const Text("Body Of The Note"),
                 ),
                 validator: (value) {
                   if (value == null) {
@@ -85,10 +108,10 @@ class _AddNotesState extends State<AddNotes> {
                   style: ButtonStyle(
                       backgroundColor:
                           MaterialStateProperty.all<Color>(Colors.blue),
-                      shape: MaterialStateProperty.all(StadiumBorder()),
-                      padding: MaterialStateProperty.all(EdgeInsets.only(
+                      shape: MaterialStateProperty.all(const StadiumBorder()),
+                      padding: MaterialStateProperty.all(const EdgeInsets.only(
                           left: 55, right: 55, top: 10, bottom: 10))),
-                  child: Text(
+                  child: const Text(
                     "Add Note",
                     style: TextStyle(color: Colors.white, fontSize: 20),
                   ))
@@ -103,16 +126,24 @@ class _AddNotesState extends State<AddNotes> {
 class UpdateNotes extends StatefulWidget {
   const UpdateNotes({
     super.key,
-    required this.title,
-    required this.body,
-    required this.docID,
     required this.sKey,
+    required this.data,
+    required this.d,
+    required this.index,
+    // required this.title,
+    // required this.body,
+    // required this.docID,
+    // required this.sKey,
   });
 
   final GlobalKey<State<StatefulWidget>> sKey;
-  final String title;
-  final String body;
-  final String docID;
+  // final String title;
+  // final String body;
+  // final String docID;
+
+  final UserModel data;
+  final Map<String, dynamic> d;
+  final int index;
   @override
   State<UpdateNotes> createState() => _UpdateNotesState();
 }
@@ -121,23 +152,43 @@ class _UpdateNotesState extends State<UpdateNotes> {
   final formkey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    TextEditingController title = TextEditingController(text: widget.title);
-    TextEditingController body = TextEditingController(text: widget.body);
+    TextEditingController title =
+        TextEditingController(text: widget.d['title']);
+    TextEditingController body = TextEditingController(text: widget.d['body']);
     Future<void> processData() async {
       if (formkey.currentState!.validate()) {
-        Navigator.of(context, rootNavigator: true).pop('dialog');
-        Response r =
-            await Notes.UpdateData(title.text, body.text, widget.docID);
-        ScaffoldMessenger.of(widget.sKey.currentState!.context).showSnackBar(
-          SnackBar(content: Text("${r.msg}")),
-        );
+        widget.d['title'] = title.text;
+        widget.d['body'] = body.text;
+
+        widget.data.notes![widget.index] = widget.d;
+
+        String msg = "";
+        bool res = await Notes.setData(widget.data.toMap());
+        if (res) {
+          msg = "Updated!!";
+        } else {
+          msg = "Some thing went wrong";
+        }
+
+        if (context.mounted) {
+          ScaffoldMessenger.of(widget.sKey.currentState!.context).showSnackBar(
+            SnackBar(content: Text(msg)),
+          );
+          Navigator.of(context, rootNavigator: true).pop('dialog');
+        }
+
+        // Response r =
+        //     await Notes.UpdateData(title.text, body.text, widget.docID);
+        // ScaffoldMessenger.of(widget.sKey.currentState!.context).showSnackBar(
+        //   SnackBar(content: Text("${r.msg}")),
+        // );
       }
     }
 
     return AlertDialog(
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(30))),
-      title: Text(
+      title: const Text(
         "Update",
         textAlign: TextAlign.center,
       ),
@@ -165,7 +216,7 @@ class _UpdateNotesState extends State<UpdateNotes> {
                     return null;
                   },
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 TextFormField(
@@ -173,10 +224,10 @@ class _UpdateNotesState extends State<UpdateNotes> {
                   maxLines: 3,
                   controller: body,
                   decoration: InputDecoration(
-                    contentPadding: EdgeInsets.all(20),
+                    contentPadding: const EdgeInsets.all(20),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30)),
-                    label: Text("Body Of Note"),
+                    label: const Text("Body Of Note"),
                   ),
                   validator: (value) {
                     if (value == null) {
@@ -185,7 +236,7 @@ class _UpdateNotesState extends State<UpdateNotes> {
                     return null;
                   },
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 ElevatedButton(
@@ -193,12 +244,12 @@ class _UpdateNotesState extends State<UpdateNotes> {
                       processData();
                     },
                     style: ButtonStyle(
-                      shape: MaterialStateProperty.all(StadiumBorder()),
-                      padding: MaterialStateProperty.all(EdgeInsets.only(
+                      shape: MaterialStateProperty.all(const StadiumBorder()),
+                      padding: MaterialStateProperty.all(const EdgeInsets.only(
                           left: 50, right: 50, top: 10, bottom: 10)),
                       backgroundColor: MaterialStateProperty.all(Colors.blue),
                     ),
-                    child: Text(
+                    child: const Text(
                       "Update",
                       style: TextStyle(color: Colors.white),
                     ))

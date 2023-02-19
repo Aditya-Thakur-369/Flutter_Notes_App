@@ -6,7 +6,7 @@ class MyTheme {
         useMaterial3: true,
         primarySwatch: Colors.blue,
         fontFamily: GoogleFonts.poppins().fontFamily,
-        appBarTheme: AppBarTheme(
+        appBarTheme: const AppBarTheme(
           color: Colors.white,
           elevation: 0.0,
           iconTheme: IconThemeData(color: Colors.white),
@@ -26,11 +26,11 @@ class MyTheme {
       appBarTheme: AppBarTheme(
         color: Colors.black,
         elevation: 0.0,
-        iconTheme: IconThemeData(color: Colors.black),
-        toolbarTextStyle: Theme.of(context).textTheme.bodyText2,
-        titleTextStyle: Theme.of(context).textTheme.headline6,
+        iconTheme: const IconThemeData(color: Colors.black),
+        toolbarTextStyle: Theme.of(context).textTheme.bodyMedium,
+        titleTextStyle: Theme.of(context).textTheme.titleLarge,
       ));
 
-  static Color creamColor = Color(0xfff5f5f5);
-  static Color darkColor = Color.fromARGB(255, 0, 0, 0);
+  static Color creamColor = const Color(0xfff5f5f5);
+  static Color darkColor = const Color.fromARGB(255, 0, 0, 0);
 }

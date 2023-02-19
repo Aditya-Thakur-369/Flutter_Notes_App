@@ -2,7 +2,6 @@ import 'package:crudapp/Pages/ChatScreen.dart';
 import 'package:crudapp/Pages/Profile.dart';
 import 'package:crudapp/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 class Itemheader extends StatefulWidget {
@@ -21,7 +20,7 @@ class _ItemheaderState extends State<Itemheader> {
         child: Column(
           children: [
             ListTile(
-              leading: Icon(
+              leading: const Icon(
                 Icons.dashboard_outlined,
                 size: 25,
                 color: Colors.black,
@@ -34,26 +33,26 @@ class _ItemheaderState extends State<Itemheader> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => Profile(),
+                      builder: (context) => const Profile(),
                     ));
               },
             ),
             ListTile(
-                leading: Icon(
+                leading: const Icon(
                   Icons.search_outlined,
                   size: 25,
                   color: Colors.black,
                 ),
-                title: Text(
+                title:const Text(
                   "Search",
                   style: TextStyle(fontSize: 20, color: Colors.grey),
                 ),
                 onTap: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => ChatScreen()));
+                      MaterialPageRoute(builder: (context) => const ChatScreen()));
                 }),
             ListTile(
-              leading: Icon(
+              leading: const Icon(
                 Icons.logout_rounded,
                 size: 25,
                 color: Colors.black,

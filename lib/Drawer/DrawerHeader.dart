@@ -31,17 +31,18 @@ class _DrawerHeaderState extends State<Drawerheader> {
     } else {}
   }
 
+  @override
   Widget build(BuildContext context) {
     return Container(
       color: Colors.blue.shade300,
       height: 200,
       width: double.infinity,
-      padding: EdgeInsets.only(top: 20.0),
+      padding: const EdgeInsets.only(top: 20.0),
       child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
         Container(
-          margin: EdgeInsets.only(bottom: 10),
+          margin: const EdgeInsets.only(bottom: 10),
           height: 70,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             shape: BoxShape.circle,
             image:
                 DecorationImage(image: AssetImage("assets/Images/profile.png")),
@@ -49,7 +50,7 @@ class _DrawerHeaderState extends State<Drawerheader> {
         ),
         Text(name.text.isEmpty ? "Username" : name.text,
             // FirebaseAuth.instance.currentUser!.email.toString(),
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 20,
               color: Colors.white,
             )),

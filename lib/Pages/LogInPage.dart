@@ -13,17 +13,17 @@ class LogInPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _formkey = GlobalKey<FormState>();
+    final formkey = GlobalKey<FormState>();
     TextEditingController email = TextEditingController();
     TextEditingController password = TextEditingController();
-    MoveToHome() async {
-      if (_formkey.currentState!.validate()) {
+    moveToHome() async {
+      if (formkey.currentState!.validate()) {
         try {
           await FirebaseAuth.instance
               .signInWithEmailAndPassword(
                   email: email.text, password: password.text)
               .then((value) => Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => HomePage())));
+                  MaterialPageRoute(builder: (context) => const HomePage())));
           Fluttertoast.showToast(
             msg: 'Log In Successfully :) ',
             backgroundColor: Colors.grey,
@@ -41,11 +41,11 @@ class LogInPage extends StatelessWidget {
                       children: [
                         TextButton(
                             onPressed: () => Navigator.pop(context),
-                            child: Text("OK"))
+                            child: const Text("OK"))
                       ],
                     )
                   ],
-                  shape: RoundedRectangleBorder(
+                  shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(30))),
                 );
               },
@@ -62,11 +62,11 @@ class LogInPage extends StatelessWidget {
                       children: [
                         TextButton(
                             onPressed: () => Navigator.pop(context),
-                            child: Text("OK"))
+                            child: const Text("OK"))
                       ],
                     )
                   ],
-                  shape: RoundedRectangleBorder(
+                  shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(30))),
                 );
               },
@@ -83,11 +83,11 @@ class LogInPage extends StatelessWidget {
                       children: [
                         TextButton(
                             onPressed: () => Navigator.pop(context),
-                            child: Text("OK"))
+                            child: const Text("OK"))
                       ],
                     )
                   ],
-                  shape: RoundedRectangleBorder(
+                  shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(30))),
                 );
               },
@@ -104,11 +104,11 @@ class LogInPage extends StatelessWidget {
                       children: [
                         TextButton(
                             onPressed: () => Navigator.pop(context),
-                            child: Text("OK"))
+                            child: const Text("OK"))
                       ],
                     )
                   ],
-                  shape: RoundedRectangleBorder(
+                  shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(30))),
                 );
               },
@@ -125,11 +125,11 @@ class LogInPage extends StatelessWidget {
                       children: [
                         TextButton(
                             onPressed: () => Navigator.pop(context),
-                            child: Text("OK"))
+                            child: const Text("OK"))
                       ],
                     )
                   ],
-                  shape: RoundedRectangleBorder(
+                  shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(30))),
                 );
               },
@@ -138,8 +138,10 @@ class LogInPage extends StatelessWidget {
           // print(e);
           log(e.code);
         }
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => LogInPage()));
+        if (context.mounted) {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const LogInPage()));
+        }
       }
     }
 
@@ -147,9 +149,9 @@ class LogInPage extends StatelessWidget {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Form(
-            key: _formkey,
+            key: formkey,
             child: Column(children: [
-              SizedBox(
+              const SizedBox(
                 height: 50.0,
               ),
               Padding(
@@ -162,20 +164,17 @@ class LogInPage extends StatelessWidget {
                   // fit: BoxFit.cover,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 8.0),
-                child: Container(
-                  // alignment: Alignment.center,
-                  child: Text(
-                    "Log In",
-                    style: GoogleFonts.lato(fontSize: 50.0, color: Colors.blue),
-                  ),
+                padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 8.0),
+                child: Text(
+                  "Log In",
+                  style: GoogleFonts.lato(fontSize: 50.0, color: Colors.blue),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Padding(
@@ -184,7 +183,7 @@ class LogInPage extends StatelessWidget {
                 child: TextFormField(
                   controller: email,
                   decoration: InputDecoration(
-                      suffixIcon: Icon(CupertinoIcons.mail),
+                      suffixIcon: const Icon(CupertinoIcons.mail),
                       hintText: "username@gmail.com",
                       labelText: "Enter Email",
                       border: OutlineInputBorder(
@@ -197,7 +196,7 @@ class LogInPage extends StatelessWidget {
                   },
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 5,
               ),
               Padding(
@@ -207,7 +206,7 @@ class LogInPage extends StatelessWidget {
                   obscureText: true,
                   controller: password,
                   decoration: InputDecoration(
-                      suffixIcon: Icon(CupertinoIcons.lock),
+                      suffixIcon: const Icon(CupertinoIcons.lock),
                       hintText: "Abcd@54#87",
                       labelText: "Enter Password",
                       border: OutlineInputBorder(
@@ -220,22 +219,24 @@ class LogInPage extends StatelessWidget {
                   },
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10.0,
               ),
               ElevatedButton(
                   onPressed: () {
-                    MoveToHome();
+                    moveToHome();
                   },
                   style: ButtonStyle(
                       backgroundColor:
                           MaterialStateProperty.all<Color>(Colors.blue),
-                      shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10)))),
-                      padding: MaterialStateProperty.all(EdgeInsets.only(
+                      shape: MaterialStateProperty.all(
+                          const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)))),
+                      padding: MaterialStateProperty.all(const EdgeInsets.only(
                           left: 130, right: 130, top: 10, bottom: 10)),
                       elevation: MaterialStateProperty.all(1)),
-                  child: Text(
+                  child: const Text(
                     "Log In",
                     style: TextStyle(
                         color: Colors.white,
@@ -245,13 +246,13 @@ class LogInPage extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Don't Have an Account ?"),
+                  const Text("Don't Have an Account ?"),
                   TextButton(
                       onPressed: () => Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => SignUpPage())),
-                      child: Text("Create An Account")),
+                              builder: (context) => const SignUpPage())),
+                      child: const Text("Create An Account")),
                 ],
               ),
             ]),

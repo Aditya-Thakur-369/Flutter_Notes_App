@@ -1,8 +1,6 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 
 import '../Modal/Response.dart';
 import 'models.dart';
@@ -12,9 +10,10 @@ final CollectionReference reference = store.collection("User");
 
 class UserData {
   static userdata(String uid) async {
+    UserModel d = UserModel(uid: uid);
     // log(uid);
     try {
-      await store.collection("User").doc(uid).set({"id": uid});
+      await store.collection("User").doc(uid).set(d.toMap());
     } catch (e) {
       log(e.toString());
     }
@@ -25,7 +24,7 @@ class UserData {
     Response r = Response();
 
     DocumentReference documentReference = reference.doc(uid);
-    var result = await documentReference
+    await documentReference
         .set(data.toMap())
         .whenComplete(() => {
               r.code = 200,
@@ -40,12 +39,11 @@ class UserData {
   }
 
   static Future<UserModel?> fetchUser(String uid) async {
-    try{
-    DocumentSnapshot<Object?> value = await reference.doc(uid).get();
-    return UserModel.fromMap(value.data() as Map<String, dynamic>);
-    }
-    catch(e){
-      print(e);
+    try {
+      DocumentSnapshot<Object?> value = await reference.doc(uid).get();
+      return UserModel.fromMap(value.data() as Map<String, dynamic>);
+    } catch (e) {
+      log(e.toString());
       return null;
     }
   }
