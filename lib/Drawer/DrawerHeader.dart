@@ -25,7 +25,7 @@ class _DrawerHeaderState extends State<Drawerheader> {
         await UserData.fetchUser(FirebaseAuth.instance.currentUser!.uid);
     if (d != null) {
       setState(() {
-        name.text = d.name ?? "";
+        name.text = d.name ?? " ";
         // email.text = d.mail ?? "";
       });
     } else {}
@@ -48,7 +48,7 @@ class _DrawerHeaderState extends State<Drawerheader> {
                 DecorationImage(image: AssetImage("assets/Images/profile.png")),
           ),
         ),
-        Text(name.text.isEmpty ? "Username" : name.text,
+        Text(name.text.isEmpty ? " " : name.text,
             // FirebaseAuth.instance.currentUser!.email.toString(),
             style: const TextStyle(
               fontSize: 20,

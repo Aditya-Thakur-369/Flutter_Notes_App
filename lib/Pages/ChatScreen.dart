@@ -1,7 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
+import 'package:selectable/selectable.dart';
 import 'model.dart';
+import 'package:clipboard/clipboard.dart';
 
 // const backgroundColor = Color(0xff343541);
 // const botBackgroundColor = Color(0xff444654);
@@ -16,8 +19,10 @@ class ChatScreen extends StatefulWidget {
   State<ChatScreen> createState() => _ChatScreenState();
 }
 
+TextEditingController message = TextEditingController();
+
 Future<String> generateResponse(String prompt) async {
-  const apiKey = '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';
+  const apiKey = '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';
 
   var url = Uri.https("api.openai.com", "/v1/completions");
   final response = await http.post(
@@ -39,7 +44,6 @@ Future<String> generateResponse(String prompt) async {
 
   // Do something with the response
   Map<String, dynamic> newresponse = jsonDecode(response.body);
-
   return newresponse['choices'][0]['text'];
 }
 
@@ -83,7 +87,7 @@ class _ChatScreenState extends State<ChatScreen> {
               child: const Padding(
                 padding: EdgeInsets.all(8.0),
                 child: CircularProgressIndicator(
-                  color: Colors.white,
+                  color: Colors.black,
                 ),
               ),
             ),
@@ -110,7 +114,8 @@ class _ChatScreenState extends State<ChatScreen> {
         child: IconButton(
           icon: const Icon(
             Icons.send_rounded,
-            color: Color.fromRGBO(142, 142, 160, 1),
+            size: 35,
+            color: Colors.blue,
           ),
           onPressed: () async {
             setState(
@@ -156,13 +161,15 @@ class _ChatScreenState extends State<ChatScreen> {
         controller: _textController,
         decoration: const InputDecoration(
           labelText: "Search Something ... ",
+          hintText: "Write a Email For Leave ...",
           fillColor: botBackgroundColor,
           filled: true,
-          border: InputBorder.none,
-          focusedBorder: InputBorder.none,
-          enabledBorder: InputBorder.none,
-          errorBorder: InputBorder.none,
-          disabledBorder: InputBorder.none,
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(30))),
+          // focusedBorder: InputBorder.none,
+          // enabledBorder: InputBorder.none,
+          // errorBorder: InputBorder.none,
+          // disabledBorder: InputBorder.none,
         ),
       ),
     );
@@ -238,12 +245,34 @@ class ChatMessageWidget extends StatelessWidget {
                   decoration: const BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(8.0)),
                   ),
-                  child: SelectableText(
-                    text,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyLarge
-                        ?.copyWith(color: Colors.black),
+                  child: Column(
+                    children: [
+                      SelectableText(
+                        text.trim(),
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyLarge
+                            ?.copyWith(color: Colors.black),
+                        onTap: () {
+                          Fluttertoast.showToast(
+                              msg: "Text Copied",
+                              backgroundColor: Colors.grey,
+                              textColor: Colors.white);
+                          FlutterClipboard.copy(text)
+                              .then((value) => print('copied text'));
+                        },
+                      ),
+                      TextButton(
+                          onPressed: () {
+                            Fluttertoast.showToast(
+                                msg: "Text Copied",
+                                backgroundColor: Colors.grey,
+                                textColor: Colors.white);
+                            FlutterClipboard.copy(text)
+                                .then((value) => print('copied text'));
+                          },
+                          child: Text("Copy"))
+                    ],
                   ),
                 ),
               ],
