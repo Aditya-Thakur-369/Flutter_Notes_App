@@ -51,6 +51,11 @@ class Notes {
     return UserModel.fromMap(dd.data() as Map<String, dynamic>);
   }
 
+  static Stream<DocumentSnapshot<Object?>> readData2() {
+    // return reference.snapshots();
+    return reference.doc(FirebaseAuth.instance.currentUser!.uid).snapshots();
+  }
+
   // ignore: non_constant_identifier_names
   static Future<Response> UpdateData(
       String title, String body, String docID) async {

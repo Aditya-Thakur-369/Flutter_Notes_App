@@ -1,6 +1,4 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:crudapp/BackEnd/UserData.dart';
-import 'package:crudapp/Modal/Response.dart';
 import 'package:flutter/material.dart';
 import '../BackEnd/models.dart';
 import '../Modal/Operation.dart';
@@ -31,7 +29,9 @@ class _AddNotesState extends State<AddNotes> {
 
       Map<String, dynamic> d = {'title': title.text, 'body': body.text};
       widget.data.notes ??= [];
-      widget.data.notes!.add(d);
+      setState(() {
+        widget.data.notes!.add(d);
+      });
 
       bool res = await Notes.setData(widget.data.toMap());
       String msg = "";
@@ -40,12 +40,9 @@ class _AddNotesState extends State<AddNotes> {
       } else {
         msg = "Something went wrong!!";
       }
-      if (context.mounted) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text(msg)));
-
-        Navigator.pop(context);
-      }
+      ScaffoldMessenger.of(widget.sKey.currentState!.context)
+          .showSnackBar(SnackBar(content: Text(msg)));
+      // Navigator.pop(context);
 
       // Response r = await Notes.addnote(title.text, body.text);
       // ScaffoldMessenger.of(widget.sKey.currentState!.context)
