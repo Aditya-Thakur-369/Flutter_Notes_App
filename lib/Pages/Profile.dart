@@ -52,7 +52,7 @@ class _ProfileState extends State<Profile> {
         dob.text = d.dob ?? "";
         name.text = d.name ?? "";
         // email.text = d.mail ?? "";
-        
+
         number.text = d.number ?? "";
         hasData = true;
       });
@@ -61,6 +61,19 @@ class _ProfileState extends State<Profile> {
 
   void movetosavedata() async {
     if (formkey1.currentState!.validate()) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            content: SizedBox(
+                height: 32,
+                width: 32,
+                child: CircularProgressIndicator(
+                  color: Colors.black,
+                )),
+          );
+        },
+      );
       try {
         Navigator.of(context, rootNavigator: true).pop('dialog');
         UserModel data = UserModel(
