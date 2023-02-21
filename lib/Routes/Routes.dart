@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
-
 class Routes {
-  static String SignUpPage = "/SignUpPage";
-  static String LogInPage = "/LogInPage";
-  static String HomePage = "/HomePage";
+  static String signUpPage = "/SignUpPage";
+  static String logInPage = "/LogInPage";
+  static String homePage = "/HomePage";
+  static String profile = "/Profile";
+  static String chatScreen = "/ChatScreen";
 }

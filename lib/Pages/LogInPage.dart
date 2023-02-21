@@ -5,24 +5,35 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 class LogInPage extends StatelessWidget {
   const LogInPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final _formkey = GlobalKey<FormState>();
+    final formkey = GlobalKey<FormState>();
     TextEditingController email = TextEditingController();
     TextEditingController password = TextEditingController();
-    MoveToHome() async {
-      if (_formkey.currentState!.validate()) {
+    moveToHome() async {
+      if (formkey.currentState!.validate()) {
+        showDialog(context: context, builder: (context) {
+          return AlertDialog(
+            title: Text("Loading ... "),
+            content: Container(width: 32 , height:  32 , child: CircularProgressIndicator(color: Colors.black,)),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+          );
+        },);
         try {
           await FirebaseAuth.instance
               .signInWithEmailAndPassword(
                   email: email.text, password: password.text)
               .then((value) => Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => HomePage())));
+                  MaterialPageRoute(builder: (context) => const HomePage())));
+          Fluttertoast.showToast(
+            msg: 'Log In Successfully :) ',
+            backgroundColor: Colors.grey,
+          );
         } on FirebaseAuthException catch (e) {
           if (e.code == "invalid-email") {
             return showDialog(
@@ -30,6 +41,18 @@ class LogInPage extends StatelessWidget {
               builder: (context) {
                 return AlertDialog(
                   content: const Text("Please Enter A Valid Email"),
+                  actions: [
+                    ButtonBar(
+                      alignment: MainAxisAlignment.center,
+                      children: [
+                        TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: const Text("OK"))
+                      ],
+                    )
+                  ],
+                  shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(30))),
                 );
               },
             );
@@ -39,6 +62,81 @@ class LogInPage extends StatelessWidget {
               builder: (context) {
                 return AlertDialog(
                   content: const Text("Wrong Password"),
+                  actions: [
+                    ButtonBar(
+                      alignment: MainAxisAlignment.center,
+                      children: [
+                        TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: const Text("OK"))
+                      ],
+                    )
+                  ],
+                  shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(30))),
+                );
+              },
+            );
+          } else if (e.code == "network-request-failed") {
+            return showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  content: const Text("No Internet Connection"),
+                  actions: [
+                    ButtonBar(
+                      alignment: MainAxisAlignment.center,
+                      children: [
+                        TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: const Text("OK"))
+                      ],
+                    )
+                  ],
+                  shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(30))),
+                );
+              },
+            );
+          } else if (e.code == "unknown") {
+            return showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  content: const Text("Something Went Wrong"),
+                  actions: [
+                    ButtonBar(
+                      alignment: MainAxisAlignment.center,
+                      children: [
+                        TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: const Text("OK"))
+                      ],
+                    )
+                  ],
+                  shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(30))),
+                );
+              },
+            );
+          } else if (e.code == "user-not-found") {
+            return showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  content: const Text("Something Went Wrong"),
+                  actions: [
+                    ButtonBar(
+                      alignment: MainAxisAlignment.center,
+                      children: [
+                        TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: const Text("OK"))
+                      ],
+                    )
+                  ],
+                  shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(30))),
                 );
               },
             );
@@ -46,8 +144,10 @@ class LogInPage extends StatelessWidget {
           // print(e);
           log(e.code);
         }
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => LogInPage()));
+        if (context.mounted) {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const LogInPage()));
+        }
       }
     }
 
@@ -55,9 +155,9 @@ class LogInPage extends StatelessWidget {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Form(
-            key: _formkey,
+            key: formkey,
             child: Column(children: [
-              SizedBox(
+              const SizedBox(
                 height: 50.0,
               ),
               Padding(
@@ -70,20 +170,17 @@ class LogInPage extends StatelessWidget {
                   // fit: BoxFit.cover,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 8.0),
-                child: Container(
-                  // alignment: Alignment.center,
-                  child: Text(
-                    "Log In",
-                    style: GoogleFonts.lato(fontSize: 50.0, color: Colors.blue),
-                  ),
+                padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 8.0),
+                child: Text(
+                  "Log In",
+                  style: GoogleFonts.lato(fontSize: 50.0, color: Colors.blue),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Padding(
@@ -92,7 +189,7 @@ class LogInPage extends StatelessWidget {
                 child: TextFormField(
                   controller: email,
                   decoration: InputDecoration(
-                      suffixIcon: Icon(CupertinoIcons.mail),
+                      suffixIcon: const Icon(CupertinoIcons.mail),
                       hintText: "username@gmail.com",
                       labelText: "Enter Email",
                       border: OutlineInputBorder(
@@ -105,8 +202,8 @@ class LogInPage extends StatelessWidget {
                   },
                 ),
               ),
-              SizedBox(
-                height: 10,
+              const SizedBox(
+                height: 5,
               ),
               Padding(
                 padding:
@@ -115,7 +212,7 @@ class LogInPage extends StatelessWidget {
                   obscureText: true,
                   controller: password,
                   decoration: InputDecoration(
-                      suffixIcon: Icon(CupertinoIcons.lock),
+                      suffixIcon: const Icon(CupertinoIcons.lock),
                       hintText: "Abcd@54#87",
                       labelText: "Enter Password",
                       border: OutlineInputBorder(
@@ -128,22 +225,42 @@ class LogInPage extends StatelessWidget {
                   },
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10.0,
               ),
               ElevatedButton(
                   onPressed: () {
-                    MoveToHome();
+                    moveToHome();
                   },
-                  child: Text(
+                  style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.blue),
+                      shape: MaterialStateProperty.all(
+                          const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)))),
+                      padding: MaterialStateProperty.all(const EdgeInsets.only(
+                          left: 130, right: 130, top: 10, bottom: 10)),
+                      elevation: MaterialStateProperty.all(1)),
+                  child: const Text(
                     "Log In",
                     style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold),
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
                   )),
-              TextButton(
-                  onPressed: () => Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => SignUpPage())),
-                  child: Text("Create An Account")),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text("Don't Have an Account ?"),
+                  TextButton(
+                      onPressed: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const SignUpPage())),
+                      child: const Text("Create An Account")),
+                ],
+              ),
             ]),
           ),
         ),

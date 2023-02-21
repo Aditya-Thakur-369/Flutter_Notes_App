@@ -6,3 +6,4 @@ class Response {
 
   Response({ this.code, this.msg, });
 }
+
