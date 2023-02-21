@@ -1,3 +1,4 @@
+// ignore: file_names
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../BackEnd/UserData.dart';
@@ -8,7 +9,7 @@ class Drawerheader extends StatefulWidget {
 
   @override
   State<Drawerheader> createState() => _DrawerHeaderState();
-}
+} 
 
 class _DrawerHeaderState extends State<Drawerheader> {
   TextEditingController name = TextEditingController();
@@ -23,12 +24,12 @@ class _DrawerHeaderState extends State<Drawerheader> {
   fetchData() async {
     UserModel? d =
         await UserData.fetchUser(FirebaseAuth.instance.currentUser!.uid);
-    if (d != null) {
-      setState(() {
-        name.text = d.name ?? " ";
-        // email.text = d.mail ?? "";
-      });
-    } else {}
+    // if (d != null) {
+    setState(() {
+      name.text = d?.name ?? " ";
+      // email.text = d.mail ?? "";
+    });
+    // } else {}
   }
 
   @override

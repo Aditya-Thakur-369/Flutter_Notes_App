@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 class LogInPage extends StatelessWidget {
   const LogInPage({super.key});
 
@@ -18,6 +17,13 @@ class LogInPage extends StatelessWidget {
     TextEditingController password = TextEditingController();
     moveToHome() async {
       if (formkey.currentState!.validate()) {
+        showDialog(context: context, builder: (context) {
+          return AlertDialog(
+            title: Text("Loading ... "),
+            content: Container(width: 32 , height:  32 , child: CircularProgressIndicator(color: Colors.black,)),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+          );
+        },);
         try {
           await FirebaseAuth.instance
               .signInWithEmailAndPassword(

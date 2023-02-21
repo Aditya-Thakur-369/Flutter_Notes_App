@@ -28,6 +28,7 @@ class _ProfileState extends State<Profile> {
   @override
   void initState() {
     // dob.text = " ";
+    email.text = FirebaseAuth.instance.currentUser!.email.toString();
     super.initState();
     fetchData();
   }
@@ -51,7 +52,7 @@ class _ProfileState extends State<Profile> {
         dob.text = d.dob ?? "";
         name.text = d.name ?? "";
         // email.text = d.mail ?? "";
-        email.text = FirebaseAuth.instance.currentUser!.email.toString();
+        
         number.text = d.number ?? "";
         hasData = true;
       });

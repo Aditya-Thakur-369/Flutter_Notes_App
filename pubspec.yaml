@@ -54,7 +54,6 @@ dependencies:
   flutter_dotenv: ^5.0.2
   selectable: ^0.2.11
   clipboard: ^0.1.3
-
   
 
 dev_dependencies:

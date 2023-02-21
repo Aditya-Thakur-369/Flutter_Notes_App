@@ -16,11 +16,28 @@ class SignUpPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool circular = false;
     final _formkey = GlobalKey<FormState>();
     TextEditingController email = TextEditingController();
     TextEditingController password = TextEditingController();
     MoveToLog() async {
       if (_formkey.currentState!.validate()) {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              content: SizedBox(
+                height: 32,
+                width: 32,
+                child: CircularProgressIndicator(
+                  color: Colors.black,
+                ),
+              ),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(30))),
+            );
+          },
+        );
         try {
           await FirebaseAuth.instance
               .createUserWithEmailAndPassword(

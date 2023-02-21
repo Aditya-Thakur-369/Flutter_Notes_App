@@ -1,6 +1,4 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:crudapp/BackEnd/UserData.dart';
-import 'package:crudapp/Modal/Response.dart';
 import 'package:flutter/material.dart';
 import '../BackEnd/models.dart';
 import '../Modal/Operation.dart';
@@ -43,8 +41,8 @@ class _AddNotesState extends State<AddNotes> {
       if (context.mounted) {
         ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text(msg)));
-
         Navigator.pop(context);
+        Navigator.of(context, rootNavigator: true).pop();
       }
 
       // Response r = await Notes.addnote(title.text, body.text);

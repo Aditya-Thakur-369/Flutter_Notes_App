@@ -1,7 +1,5 @@
 import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import '../Modal/Response.dart';
 import 'models.dart';
 
