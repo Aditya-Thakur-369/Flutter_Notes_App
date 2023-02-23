@@ -9,7 +9,7 @@ class Drawerheader extends StatefulWidget {
 
   @override
   State<Drawerheader> createState() => _DrawerHeaderState();
-} 
+}
 
 class _DrawerHeaderState extends State<Drawerheader> {
   TextEditingController name = TextEditingController();
@@ -22,14 +22,10 @@ class _DrawerHeaderState extends State<Drawerheader> {
   }
 
   fetchData() async {
-    UserModel? d =
-        await UserData.fetchUser(FirebaseAuth.instance.currentUser!.uid);
-    // if (d != null) {
+    UserModel? d =  await UserData.fetchUser(FirebaseAuth.instance.currentUser!.uid);
     setState(() {
       name.text = d?.name ?? " ";
-      // email.text = d.mail ?? "";
     });
-    // } else {}
   }
 
   @override
@@ -58,7 +54,7 @@ class _DrawerHeaderState extends State<Drawerheader> {
         Text(
           // email.text.isEmpty ? "Enter Your Email" : email.text,
           FirebaseAuth.instance.currentUser!.email.toString(),
-          style: TextStyle(color: Colors.grey.shade300, fontSize: 10),
+          style: TextStyle(color: Colors.grey.shade300, fontSize: 15),
         )
       ]),
     );

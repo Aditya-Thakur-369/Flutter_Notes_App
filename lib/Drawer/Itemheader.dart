@@ -43,13 +43,15 @@ class _ItemheaderState extends State<Itemheader> {
                   size: 25,
                   color: Colors.black,
                 ),
-                title:const Text(
-                  "Search",
+                title: const Text(
+                  "AI Search",
                   style: TextStyle(fontSize: 20, color: Colors.grey),
                 ),
                 onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const ChatScreen()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ChatScreen()));
                 }),
             ListTile(
               leading: const Icon(

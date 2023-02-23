@@ -113,25 +113,33 @@ class _HomePageState extends State<HomePage> {
                                 child: Padding(
                                   padding: EdgeInsets.only(left: 9, right: 9),
                                   child: ListTile(
-                                    title: Text(
-                                      e["title"].toUpperCase(),
-                                      textAlign: TextAlign.center,
-                                      style: GoogleFonts.lato(
-                                          letterSpacing: 2,
-                                          fontSize: 30,
-                                          fontWeight: FontWeight.bold),
+                                    dense: true,
+                                    visualDensity: VisualDensity(vertical: -3),
+                                    tileColor: Colors.grey.shade100,
+                                    selected: false,
+                                    title: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        e["title"].toUpperCase(),
+                                        textAlign: TextAlign.center,
+                                        style: GoogleFonts.anticDidone(
+                                            letterSpacing: 2,
+                                            fontSize: 25,
+                                            fontWeight: FontWeight.bold),
+                                      ),
                                     ),
                                     subtitle: Padding(
                                       padding: const EdgeInsets.only(top: 20),
                                       child: Text(
                                         "${e["body"]}",
                                         textAlign: TextAlign.center,
-                                        style: TextStyle(
+                                        style: GoogleFonts.laila(
                                             fontSize: 20,
-                                            color: Colors.blueGrey[300]),
+                                            color: Colors.grey.shade500),
                                       ),
                                     ),
                                     trailing: PopupMenuButton<String>(
+                                      splashRadius: 10,
                                       onSelected: (String result) {
                                         switch (result) {
                                           case 'edit':
@@ -196,7 +204,7 @@ class _HomePageState extends State<HomePage> {
                           )
                         : const Center(child: Text("No data!!")),
                   )
-                : const Center(child: CircularProgressIndicator())
+                : const Center(child: CircularProgressIndicator()),
             // body: StreamBuilder(
             //     stream: data,
             //     builder: (BuildContext content,
@@ -284,7 +292,7 @@ class _HomePageState extends State<HomePage> {
             //                       ),
             //                       isThreeLine: true,
             //                     ),
-            //                   ),
+            //                   ),s
             //                 );
             //               }).toList(),
             //             ),
@@ -300,12 +308,13 @@ class _HomePageState extends State<HomePage> {
             //         );
             //       }
             //     }),
-            ,
+
             drawer: Drawer(
               backgroundColor: Colors.white,
+              elevation: 0,
               child: SingleChildScrollView(
                 child: Column(
-                  children: const [
+                  children: [
                     Drawerheader(),
                     Itemheader(),
                   ],

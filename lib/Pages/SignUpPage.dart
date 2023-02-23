@@ -22,18 +22,27 @@ class SignUpPage extends StatelessWidget {
     MoveToLog() async {
       if (_formkey.currentState!.validate()) {
         showDialog(
+          barrierDismissible: false,
           context: context,
           builder: (context) {
             return AlertDialog(
               content: SizedBox(
-                height: 32,
-                width: 32,
-                child: CircularProgressIndicator(
-                  color: Colors.black,
-                ),
-              ),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(30))),
+                  height: 42,
+                  width: 42,
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Text("Loading ... "),
+                      SizedBox(
+                        width: 40,
+                      ),
+                      CircularProgressIndicator(
+                        color: Colors.black,
+                      ),
+                    ],
+                  )),
             );
           },
         );
@@ -50,10 +59,7 @@ class SignUpPage extends StatelessWidget {
               }
             },
           );
-          Fluttertoast.showToast(
-            msg: 'Account Created Successfully :)',
-            backgroundColor: Colors.grey,
-          );
+          Fluttertoast.showToast(msg: 'Account Created Successfully :)');
         } on FirebaseAuthException catch (e) {
           if (e.code == "invalid-email") {
             showDialog(
@@ -71,6 +77,7 @@ class SignUpPage extends StatelessWidget {
                         TextButton(
                           child: Text("OK"),
                           onPressed: () {
+                            Navigator.pop(context);
                             Navigator.pop(context);
                           },
                         )
@@ -93,7 +100,10 @@ class SignUpPage extends StatelessWidget {
                       alignment: MainAxisAlignment.center,
                       children: [
                         TextButton(
-                            onPressed: () => Navigator.pop(context),
+                            onPressed: () {
+                              Navigator.pop(context);
+                              Navigator.pop(context);
+                            },
                             child: Text("OK"))
                       ],
                     )
@@ -115,7 +125,10 @@ class SignUpPage extends StatelessWidget {
                       alignment: MainAxisAlignment.center,
                       children: [
                         TextButton(
-                            onPressed: () => Navigator.pop(context),
+                            onPressed: () {
+                              Navigator.pop(context);
+                              Navigator.pop(context);
+                            },
                             child: Text("OK"))
                       ],
                     )
@@ -137,7 +150,10 @@ class SignUpPage extends StatelessWidget {
                       alignment: MainAxisAlignment.center,
                       children: [
                         TextButton(
-                            onPressed: () => Navigator.pop(context),
+                            onPressed: () {
+                              Navigator.pop(context);
+                              Navigator.pop(context);
+                            },
                             child: Text("OK"))
                       ],
                     )

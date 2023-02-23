@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'dart:developer';
 import 'package:crudapp/Pages/Home.dart';
 import 'package:crudapp/Pages/SignUpPage.dart';
@@ -7,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 class LogInPage extends StatelessWidget {
   const LogInPage({super.key});
 
@@ -17,13 +20,31 @@ class LogInPage extends StatelessWidget {
     TextEditingController password = TextEditingController();
     moveToHome() async {
       if (formkey.currentState!.validate()) {
-        showDialog(context: context, builder: (context) {
-          return AlertDialog(
-            title: Text("Loading ... "),
-            content: Container(width: 32 , height:  32 , child: CircularProgressIndicator(color: Colors.black,)),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-          );
-        },);
+        showDialog(
+          barrierDismissible: false,
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              content: SizedBox(
+                  height: 42,
+                  width: 42,
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Text("Loading ... "),
+                      SizedBox(
+                        width: 40,
+                      ),
+                      CircularProgressIndicator(
+                        color: Colors.black,
+                      ),
+                    ],
+                  )),
+            );
+          },
+        );
         try {
           await FirebaseAuth.instance
               .signInWithEmailAndPassword(
@@ -32,7 +53,6 @@ class LogInPage extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => const HomePage())));
           Fluttertoast.showToast(
             msg: 'Log In Successfully :) ',
-            backgroundColor: Colors.grey,
           );
         } on FirebaseAuthException catch (e) {
           if (e.code == "invalid-email") {
@@ -46,7 +66,10 @@ class LogInPage extends StatelessWidget {
                       alignment: MainAxisAlignment.center,
                       children: [
                         TextButton(
-                            onPressed: () => Navigator.pop(context),
+                            onPressed: () {
+                              Navigator.pop(context);
+                              Navigator.pop(context);
+                            },
                             child: const Text("OK"))
                       ],
                     )
@@ -67,7 +90,10 @@ class LogInPage extends StatelessWidget {
                       alignment: MainAxisAlignment.center,
                       children: [
                         TextButton(
-                            onPressed: () => Navigator.pop(context),
+                            onPressed: () {
+                              Navigator.pop(context);
+                              Navigator.pop(context);
+                            },
                             child: const Text("OK"))
                       ],
                     )
@@ -88,7 +114,10 @@ class LogInPage extends StatelessWidget {
                       alignment: MainAxisAlignment.center,
                       children: [
                         TextButton(
-                            onPressed: () => Navigator.pop(context),
+                            onPressed: () {
+                              Navigator.pop(context);
+                              Navigator.pop(context);
+                            },
                             child: const Text("OK"))
                       ],
                     )
@@ -109,7 +138,10 @@ class LogInPage extends StatelessWidget {
                       alignment: MainAxisAlignment.center,
                       children: [
                         TextButton(
-                            onPressed: () => Navigator.pop(context),
+                            onPressed: () {
+                              Navigator.pop(context);
+                              Navigator.pop(context);
+                            },
                             child: const Text("OK"))
                       ],
                     )
@@ -130,7 +162,10 @@ class LogInPage extends StatelessWidget {
                       alignment: MainAxisAlignment.center,
                       children: [
                         TextButton(
-                            onPressed: () => Navigator.pop(context),
+                            onPressed: () {
+                              Navigator.pop(context);
+                              Navigator.pop(context);
+                            },
                             child: const Text("OK"))
                       ],
                     )

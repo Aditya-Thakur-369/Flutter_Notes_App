@@ -41,12 +41,12 @@ class _AddNotesState extends State<AddNotes> {
         msg = "Something went wrong!!";
       }
 
-      if (context.mounted) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text(msg)));
-        Navigator.pop(context);
-        Navigator.of(context, rootNavigator: true).pop();
-      }
+      // if (context.mounted) {
+      //   ScaffoldMessenger.of(context)
+      //       .showSnackBar(SnackBar(content: Text(msg)));
+      //   Navigator.pop(context);
+      //   Navigator.of(context, rootNavigator: true).pop();
+      // }
       ScaffoldMessenger.of(widget.sKey.currentState!.context)
           .showSnackBar(SnackBar(content: Text(msg)));
       // Navigator.pop(context);

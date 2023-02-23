@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../Modal/Operation.dart';
 import '../Modal/Response.dart';
 import 'models.dart';
 
@@ -20,6 +21,9 @@ class UserData {
 
   static profile(UserModel data, String uid) async {
     Response r = Response();
+
+    UserModel temp = await Notes.readData();
+    data.notes = temp.notes;
 
     DocumentReference documentReference = reference.doc(uid);
     await documentReference

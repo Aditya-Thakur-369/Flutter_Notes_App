@@ -27,7 +27,6 @@ class _ProfileState extends State<Profile> {
   final formkey1 = GlobalKey<FormState>();
   @override
   void initState() {
-    // dob.text = " ";
     email.text = FirebaseAuth.instance.currentUser!.email.toString();
     super.initState();
     fetchData();
@@ -61,19 +60,6 @@ class _ProfileState extends State<Profile> {
 
   void movetosavedata() async {
     if (formkey1.currentState!.validate()) {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            content: SizedBox(
-                height: 32,
-                width: 32,
-                child: CircularProgressIndicator(
-                  color: Colors.black,
-                )),
-          );
-        },
-      );
       try {
         Navigator.of(context, rootNavigator: true).pop('dialog');
         UserModel data = UserModel(
@@ -238,9 +224,18 @@ class _ProfileState extends State<Profile> {
                                         .instance.currentUser!.emailVerified
                                     ? TextButton(
                                         onPressed: () async {
-                                          await FirebaseAuth
-                                              .instance.currentUser!
-                                              .sendEmailVerification();
+                                          try {
+                                            await FirebaseAuth
+                                                .instance.currentUser!
+                                                .sendEmailVerification();
+                                          } catch (e) {
+                                            log(e.toString());
+                                            if (e.toString() ==
+                                                "[firebase_auth/too-many-requests] We have blocked all requests from this device due to unusual activity. Try again later.") {
+                                              Fluttertoast.showToast(
+                                                  msg: "Unusual Activity");
+                                            }
+                                          }
                                           // ignore: use_build_context_synchronously
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(

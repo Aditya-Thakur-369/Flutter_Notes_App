@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'Pages/ChatScreen.dart';
 import 'Pages/Home.dart';
 import 'Pages/LogInPage.dart';
@@ -27,7 +30,7 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeMode.system,
       theme: MyTheme.lightData(context),
       debugShowCheckedModeBanner: false,
-      home: const MainPage(),
+      home: const SplashScreen(),
       routes: {
         Routes.signUpPage: (context) => const SignUpPage(),
         Routes.logInPage: (context) => const LogInPage(),
@@ -35,6 +38,52 @@ class MyApp extends StatelessWidget {
         Routes.profile: (context) => const Profile(),
         Routes.chatScreen: (context) => const ChatScreen(),
       },
+    );
+  }
+}
+
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  void initState() {
+    super.initState();
+    Timer(
+        Duration(seconds: 3),
+        () => Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => MainPage())));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 40),
+            child: Image.asset(
+              "assets/Images/Notify.png",
+              width: 400.0,
+              height: 400.0,
+              fit: BoxFit.cover,
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.only(bottom: 20),
+            child: Text("Notify",
+                style: GoogleFonts.poppins(
+                    fontSize: 50,
+                    color: Colors.orange,
+                    fontWeight: FontWeight.bold,
+                    backgroundColor: Colors.white)),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -22,7 +22,7 @@ class ChatScreen extends StatefulWidget {
 TextEditingController message = TextEditingController();
 
 Future<String> generateResponse(String prompt) async {
-  const apiKey = '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';
+  const apiKey = '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';
 
   var url = Uri.https("api.openai.com", "/v1/completions");
   final response = await http.post(
@@ -44,6 +44,7 @@ Future<String> generateResponse(String prompt) async {
 
   // Do something with the response
   Map<String, dynamic> newresponse = jsonDecode(response.body);
+  print(response.body);
   return newresponse['choices'][0]['text'];
 }
 
@@ -67,7 +68,7 @@ class _ChatScreenState extends State<ChatScreen> {
         title: const Padding(
           padding: EdgeInsets.all(8.0),
           child: Text(
-            "Chat With Chat GPT",
+            "Chat With AI",
             maxLines: 2,
             textAlign: TextAlign.center,
             style: TextStyle(color: Colors.white),
